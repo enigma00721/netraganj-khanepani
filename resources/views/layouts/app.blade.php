@@ -13,7 +13,7 @@
 
     @yield('third_party_stylesheets')
 
-    @stack('page_css')
+    @stack('style')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -85,6 +85,6 @@
 
 @yield('third_party_scripts')
 
-@stack('page_scripts')
+@stack('script')
 </body>
 </html>

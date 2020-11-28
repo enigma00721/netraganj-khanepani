@@ -20,3 +20,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/customer', 'CustomerController@index');
+Route::get('/customer/register', 'CustomerController@create')->name('customer.register');
+
+
