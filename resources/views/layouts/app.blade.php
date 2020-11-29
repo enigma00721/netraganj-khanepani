@@ -81,7 +81,9 @@
     </footer>
 </div>
 
-<script src="{{ mix('js/app.js') }}" defer></script>
+<script src="{{ mix('js/app.js') }}" ></script>
+<!-- <script src="{{ mix('js/app.js') }}" defer></script> -->
+<!--               Note : without defer jquery is loaded -->
 
 @yield('third_party_scripts')
 
