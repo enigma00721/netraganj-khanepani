@@ -18,9 +18,14 @@ Route::get('/', function () {
 });
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/customer', 'CustomerController@index');
-Route::get('/customer/register', 'CustomerController@create')->name('customer.register');
+Route::group(['middleware' => 'auth'], function (){
+    
+    Route::get('/home', 'HomeController@index')->name('home');
+    
+    Route::get('/customer', 'CustomerController@index');
+    Route::get('/customer/register', 'CustomerController@create')->name('customer.register');
+    Route::post('/customer/register', 'CustomerController@store')->name('customer.register.submit');
+});
 
 

@@ -80,6 +80,7 @@
         reserved.
     </footer>
 </div>
+{{-- wrapper end --}}
 
 <script src="{{ mix('js/app.js') }}" ></script>
 <!-- <script src="{{ mix('js/app.js') }}" defer></script> -->

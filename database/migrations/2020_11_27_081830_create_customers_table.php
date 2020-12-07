@@ -19,16 +19,16 @@ class CreateCustomersTable extends Migration
 
             $table->string('name',100);
             $table->integer('customer_number')->unique();
-            $table->date('customer_dob');
+            $table->date('customer_dob')->nullable();
             $table->string('gender',10);
             $table->string('customer_address',50);
-            $table->string('mobile',20);
+            $table->string('mobile_number',20);
 
-            $table->string('father_name',100);
-            $table->string('grandfather_name',100);
+            $table->string('father_name',100)->nullable();
+            $table->string('grandfather_name',100)->nullable();
             
-            $table->string('citizenship_number',20);
-            $table->string('citizenship_issued_district',50);
+            $table->string('citizenship_number',20)->nullable();
+            $table->string('citizenship_issued_district',50)->nullable();
             
             $table->string('customer_type',10);
             $table->string('tap_type',20);
@@ -43,12 +43,12 @@ class CreateCustomersTable extends Migration
 
 
             // Land Info
-            $table->string('naksha_number',20);
-            $table->string('sheet_number',20);
-            $table->string('kitta_number',20);
-            $table->string('area_of_land',20);
-            $table->string('house_number',20);
-            $table->string('purja_number',20);
+            $table->string('naksha_number',20)->nullable();
+            $table->string('sheet_number',20)->nullable();
+            $table->string('kitta_number',20)->nullable();
+            $table->string('area_of_land',20)->nullable();
+            $table->string('house_number',20)->nullable();
+            $table->string('purja_number',20)->nullable();
 
 
         });
