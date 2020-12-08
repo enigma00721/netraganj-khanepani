@@ -75,16 +75,15 @@ class CustomerController extends Controller
     public function store(StoreCustomerPost $request)
     {
         $customer = Customer::create($request->all());
-       
         $imageFiles = $this->checkImageRequest($request);
-        (new ImageUploadService())->storeImage($imageFiles,$customer->id);
-          
-        if($customer){
-            return redirect()->back()->with('success_message','HAIT');
+
+        $uploadSuccess = (new ImageUploadService())->storeImage($imageFiles,$customer->id);
+        
+        if($customer && $uploadSuccess){
+            return redirect()->back()->with('success_message','Customer has been registered successfully!');
         }else{
-            return redirect()->back()->with('error_message','OOPPS');
+            return redirect()->back()->with('error_message','Customer could not be registered!');
         }
-       
     }
 
     /**

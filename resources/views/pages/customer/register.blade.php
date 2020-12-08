@@ -446,10 +446,11 @@
 	      
 @endsection
 
- {{-- --}}
+ {{--     script files     --}}
 
 @push('script')
 <script type="text/javascript" src="{{asset('js/nepali.datepicker.min.js')}}"></script>
+@include('partial.flash_message_script')
  
 {{--  script for nabar/tabs switch/change --}}
 <script type="text/javascript">

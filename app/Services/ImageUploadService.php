@@ -8,7 +8,9 @@ class ImageUploadService
 {
 
     // takes array of image files as parameter and store them in public folder
-    //  also in Photo model
+    // also save image name in Photo model
+    // $key has name of input field request like customer_photo
+    // $customerId is last customer row id inserted
     public function storeImage($imageFiles , $customerId)  
     {
         $photo = new Photo();
@@ -26,5 +28,6 @@ class ImageUploadService
         }
         $photo->customer_id = $customerId;
         $photo->save();
+        return true;
     }
 }
