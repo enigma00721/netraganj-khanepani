@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ config('app.name') }}</title>
+    <title> @yield('title',config('app.name') )</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
@@ -11,8 +11,7 @@
 
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
-    @yield('third_party_stylesheets')
-
+    <!-- @yield('third_party_stylesheets') -->
     @stack('style')
 </head>
 
@@ -76,7 +75,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.0.5
         </div>
-        <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+        <strong>Copyright &copy; 2014-2020 <a href="https://thequantumsoft.com/">QuantumSoft</a>.</strong> All rights
         reserved.
     </footer>
 </div>

@@ -22,9 +22,9 @@
 	    </a>
 	  </li>
 	  <li class="nav-item">
-	    <a href="pages/UI/icons.html" class="nav-link">
+	    <a href="{{route('customer.list')}}" class="nav-link {{ (request()->is('customer/list')) ? 'active' : '' }}">
 	      <i class="far fa-circle nav-icon"></i>
-	      <p>Icons</p>
+	      <p>Customers List</p>
 	    </a>
 	  </li>
 	  <li class="nav-item">

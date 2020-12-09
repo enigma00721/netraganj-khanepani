@@ -446,55 +446,56 @@
 	      
 @endsection
 
+
  {{--     script files     --}}
 
 @push('script')
-<script type="text/javascript" src="{{asset('js/nepali.datepicker.min.js')}}"></script>
-@include('partial.flash_message_script')
- 
-{{--  script for nabar/tabs switch/change --}}
-<script type="text/javascript">
-	$( document ).ready(function() {
-	    $("#continue_btn").click(function(){
-	 		$("#custom-tabs-one-meter-info").addClass(["active","show"]);
-	 		$("#custom-tabs-one-meter-info-tab").addClass("active");
-	  		$("#custom-tabs-one-customer-details").removeClass(["active","show"]);
-	  		$("#custom-tabs-one-customer-details-tab").removeClass("active");
+	<script type="text/javascript" src="{{asset('js/nepali.datepicker.min.js')}}"></script>
+	@include('partial.flash_message_script')
+	
+	{{--  script for nabar/tabs switch/change --}}
+	<script type="text/javascript">
+		$( document ).ready(function() {
+			$("#continue_btn").click(function(){
+				$("#custom-tabs-one-meter-info").addClass(["active","show"]);
+				$("#custom-tabs-one-meter-info-tab").addClass("active");
+				$("#custom-tabs-one-customer-details").removeClass(["active","show"]);
+				$("#custom-tabs-one-customer-details-tab").removeClass("active");
+			});
+			$("#continue_btn_2").click(function(){
+				$("#custom-tabs-one-land-info").addClass(["active","show"]);
+				$("#custom-tabs-one-land-info-tab").addClass("active");
+				$("#custom-tabs-one-meter-info").removeClass(["active","show"]);
+				$("#custom-tabs-one-meter-info-tab").removeClass("active");
+			});
 		});
-	    $("#continue_btn_2").click(function(){
-	 		$("#custom-tabs-one-land-info").addClass(["active","show"]);
-	 		$("#custom-tabs-one-land-info-tab").addClass("active");
-	  		$("#custom-tabs-one-meter-info").removeClass(["active","show"]);
-	  		$("#custom-tabs-one-meter-info-tab").removeClass("active");
-		});
-	});
-</script>
+	</script>
 
-{{-- initializing nepali data picker fields --}}
-<script>
-	$(document).ready(function(){
-		$('#nepali-datepicker').nepaliDatePicker({
-			ndpYear: true,
-			ndpMonth: true,
-			ndpYearCount: 50
+	{{-- initializing nepali data picker fields --}}
+	<script>
+		$(document).ready(function(){
+			$('#nepali-datepicker').nepaliDatePicker({
+				ndpYear: true,
+				ndpMonth: true,
+				ndpYearCount: 50
+			});
+			$('#nepali-datepicker-2').nepaliDatePicker({
+				ndpYear: true,
+				ndpMonth: true,
+				ndpYearCount: 10
+			});
 		});
-		$('#nepali-datepicker-2').nepaliDatePicker({
-			ndpYear: true,
-			ndpMonth: true,
-			ndpYearCount: 10
-		});
-	});
-</script>
+	</script>
 
-{{-- adding dynamic image name to file input fields --}}
-<script type="text/javascript">
-    $('.custom-file input').change(function (e) {
-        var files = [];
-        for (var i = 0; i < $(this)[0].files.length; i++) {
-            files.push($(this)[0].files[i].name);
-        }
-        $(this).next('.custom-file-label').html(files.join(', '));
-    });
-</script>
+	{{-- adding dynamic image name to file input fields --}}
+	<script type="text/javascript">
+		$('.custom-file input').change(function (e) {
+			var files = [];
+			for (var i = 0; i < $(this)[0].files.length; i++) {
+				files.push($(this)[0].files[i].name);
+			}
+			$(this).next('.custom-file-label').html(files.join(', '));
+		});
+	</script>
 
 @endpush

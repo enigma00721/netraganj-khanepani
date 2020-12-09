@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth'], function (){
     Route::get('/customer', 'CustomerController@index');
     Route::get('/customer/register', 'CustomerController@create')->name('customer.register');
     Route::post('/customer/register', 'CustomerController@store')->name('customer.register.submit');
+    Route::get('/customer/list', 'CustomerController@list')->name('customer.list');
+    Route::get('/customer/list/ajax', 'CustomerController@getCustomers')->name('customer.list.ajax');
 });
 
 

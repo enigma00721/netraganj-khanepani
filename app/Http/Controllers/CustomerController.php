@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Photo;
 use App\Customer;
-use Illuminate\Http\Request;
 use App\Services\ImageUploadService;
 use App\Http\Requests\StoreCustomerPost;
+use DataTables;
 
 class CustomerController extends Controller
 {
@@ -86,6 +87,25 @@ class CustomerController extends Controller
         }
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * return page where list of customers is displayed
+     * @return \Illuminate\Http\Response
+     */
+    public function list()
+    {
+        $customers = Customer::all();
+        // return view('pages.customer.list');
+        return view('pages.customer.list',compact('customers'));
+    }
+
+    // ajax request to load customers dynamically
+    public function getCustomers()
+    {
+        $model = Customer::all();
+        return DataTables::of($model)->addIndexColumn()->toJson();
+    }
     /**
      * Display the specified resource.
      *
