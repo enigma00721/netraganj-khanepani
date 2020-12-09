@@ -104,7 +104,23 @@ class CustomerController extends Controller
     public function getCustomers()
     {
         $model = Customer::all();
-        return DataTables::of($model)->addIndexColumn()->toJson();
+        return DataTables::of($model)
+        ->addIndexColumn()
+        ->editColumn('meter_status', function ($model) {
+            if ($model->meter_status === 1) {
+                return "<span class='badge badge-success'> " .
+                'Online' .
+                "</span>";
+            }else
+            return "<span class='badge badge-danger'>" .
+                'Offline' .
+                "</span>";
+        })
+        ->addColumn('action', function ($user) {
+            return '<a href="#" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+        })
+        ->rawColumns(['meter_status','action'])
+        ->toJson();
     }
     /**
      * Display the specified resource.

@@ -5,6 +5,19 @@
 @push('style')
     <link href="{{ asset('css/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dataTables.buttons.css') }}" rel="stylesheet">
+    <style>
+        
+        /* show 10 entries style */
+        #example1_length{
+            float:left;
+            margin-left:10px;
+        }
+        select[name="example1_length"] {
+            height: calc(1.8125rem + 8px);
+        }
+        /* show 10 entries style */
+
+    </style>
 @endpush
 
 @section('content')
@@ -49,6 +62,7 @@
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Meter Connected Date</th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Meter Serial</th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Meter Status</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Action</th>
 
                                     </tr>
                                 </thead>
@@ -69,6 +83,7 @@
                                         <th rowspan="1" colspan="1">Meter Connected Date</th>
                                         <th rowspan="1" colspan="1">Meter Serial</th>
                                         <th rowspan="1" colspan="1">Meter Status</th>
+                                        <th rowspan="1" colspan="1">Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -98,7 +113,8 @@
     <script>
         $(document).ready(function() {
             var table = $('#example1').DataTable({
-                dom: 'Bfrtip',
+                dom: 'Blftip',
+                lengthMenu: [10,20,50,100,500],
                 buttons: [
                     {
                         extend: 'print'
@@ -107,8 +123,9 @@
                         extend:'excel',
                         autoFilter: true,
                     },
-                    'copy', 'csv', 'pdf'
+                    'csv', 'pdf'
                 ],
+
                 processing: true,
                 serverSide: true,
 
@@ -129,8 +146,13 @@
                     {"data":"meter_connected_date"},
                     {"data":"meter_serial"},
                     {"data":"meter_status"},
+                    {"data": 'action', name: 'action'}
                 ]
+               
+
             });
+
+            //  $('table tr:last'). 
 
         });
        
