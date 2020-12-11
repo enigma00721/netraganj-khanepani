@@ -28,6 +28,10 @@ Route::group(['middleware' => 'auth'], function (){
     Route::post('/customer/register', 'CustomerController@store')->name('customer.register.submit');
     Route::get('/customer/list', 'CustomerController@list')->name('customer.list');
     Route::get('/customer/list/ajax', 'CustomerController@getCustomers')->name('customer.list.ajax');
+
+    Route::get('/meter/naamsaari', 'MeterController@meterNaamsaari')->name('meter.naamsaari');
+    Route::get('/meter/thaausaari', 'MeterController@meterThaausaari')->name('meter.thaausaari');
+    Route::post('/meter/thaausaari', 'MeterController@meterThaausaariSubmit')->name('meter.thaausaari.submit');
 });
 
 

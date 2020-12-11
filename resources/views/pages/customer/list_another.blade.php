@@ -6,6 +6,7 @@
     <link href="{{ asset('css/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dataTables.buttons.css') }}" rel="stylesheet">
     <style>
+        
         /* show 10 entries style */
         #example1_length{
             float:left;
@@ -16,17 +17,6 @@
         }
         /* show 10 entries style */
 
-        /* style for pagination and detail info */
-        .dataTables_info{
-            float: left;
-        }
-        .dataTables_paginate paging_simple_numbers{
-            float: right;
-        }
-        .dataTables_scroll{
-            margin-bottom: 20px;
-        }
-        /* style for pagination and detail info */
     </style>
 @endpush
 
@@ -55,7 +45,7 @@
                     <div class="row">
                       
                         <div class="col-sm-12">
-                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info" style="width: 100%">
                                 <thead>
                                     <tr role="row">
                                         <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">S.No.</th>
@@ -77,6 +67,25 @@
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th rowspan="1" colspan="1">S.No.</th>
+                                        <th rowspan="1" colspan="1">Customer Name</th>
+                                        <th rowspan="1" colspan="1">Customer Number</th>
+                                        <th rowspan="1" colspan="1">Father Name</th>
+                                        <th rowspan="1" colspan="1">Mobile Number</th>
+                                        <th rowspan="1" colspan="1">Address</th>
+                                        <th rowspan="1" colspan="1">Gender</th>
+                                        <th rowspan="1" colspan="1">Zone</th>
+                                        <th rowspan="1" colspan="1">Ward</th>
+                                        <th rowspan="1" colspan="1">No Of Consumers</th>
+                                        <th rowspan="1" colspan="1" style="width: 50px;">Customer Type</th>
+                                        <th rowspan="1" colspan="1">Meter Connected Date</th>
+                                        <th rowspan="1" colspan="1">Meter Serial</th>
+                                        <th rowspan="1" colspan="1">Meter Status</th>
+                                        <th rowspan="1" colspan="1">Action</th>
+                                    </tr>
+                                </tfoot> 
                             </table>
                         </div>
                        
@@ -103,36 +112,21 @@
 
     <script>
         $(document).ready(function() {
-
-            $('body').addClass('sidebar-collapse'); 
-
             var table = $('#example1').DataTable({
                 dom: 'Blftip',
                 lengthMenu: [10,20,50,100,500],
-                scrollY:"500px",
-                scrollX:true,
-                scrollCollapse: true,
+                // scrollY:        "300px",
                 fixedColumns: true,
-               
+                scrollCollapse: true,
                 buttons: [
                     {
+                        extend: 'print'
+                    },
+                    {
                         extend:'excel',
-                        exportOptions: {
-                            columns: ':visible :not(:last-child)'
-                        }
+                        autoFilter: true,
                     },
-                    {
-                        extend: 'csv',
-                        exportOptions: {
-                            columns: ':visible :not(:last-child)'
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: ':visible :not(:last-child)'
-                        }
-                    }
+                    'csv', 'pdf'
                 ],
 
                 processing: true,
@@ -159,8 +153,9 @@
                 ],
 
                  "columnDefs": [
-                    { "width": 5, "targets": 0 }
+                    { "width": "10%", "targets": 1 }
                 ]
+               
 
             });
 

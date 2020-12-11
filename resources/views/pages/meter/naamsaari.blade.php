@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Customer List')
+@section('title', 'Meter Naamsaari')
 
 @push('style')
     <link href="{{ asset('css/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dataTables.buttons.css') }}" rel="stylesheet">
+    
     <style>
         /* show 10 entries style */
         #example1_length{
@@ -27,6 +28,7 @@
             margin-bottom: 20px;
         }
         /* style for pagination and detail info */
+
     </style>
 @endpush
 
@@ -37,18 +39,45 @@
         <div class="row mb-2">
           <div class="col-sm-12">
             <h1>
-              Customer List
+               Meter Naamsaari
             </h1>
           </div>
 	  	</div><!-- /.container-fluid -->
 	  </div>
     </section>
 
+    <div class="col-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Search Customer
+                </h3>
+            </div>
+            <div class="card-body">
+                <form action="{{route('meter.thaausaari.submit')}}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Customer Number</label>
+                        <input type="number" name="customer_number" class="form-control" id="exampleInputEmail1" placeholder="Enter Customer Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Customer Name</label>
+                        <input type="text" name="name" class="form-control" id="exampleInputPassword1" placeholder="Enter Customer Name">
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+
+    @if (@isset($customers))
     <div class="col-12 col-sm-12 col-lg-12">
         <div class="card">
-            {{-- <div class="card-header">
-              <h3 class="card-title">DataTable with default features</h3>
-            </div> --}}
+            <div class="card-header">
+              <h3 class="card-title">Customer List</h3>
+            </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -68,23 +97,31 @@
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Zone</th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Ward</th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">No. Of Consumers</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" style="width: 50px !important;">Customer Type</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Meter Connected Date</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Meter Serial</th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Meter Status</th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Action</th>
 
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    <tr role="row" class="odd">
+                                        <td class="sorting_1">1</td>
+                                        <td>First Customer</td>
+                                        <td>16661</td>
+                                        <td>First Father</td>
+                                        <td>9941172265</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                        
                     </div>
                 </div>
             <!-- /.card-body -->
-          </div>
+            </div>
+        </div>
     </div>
+    @endif
+
 
 @endsection
 
@@ -103,8 +140,6 @@
 
     <script>
         $(document).ready(function() {
-
-            $('body').addClass('sidebar-collapse'); 
 
             var table = $('#example1').DataTable({
                 dom: 'Blftip',
@@ -134,33 +169,7 @@
                         }
                     }
                 ],
-
-                processing: true,
-                serverSide: true,
-
-                ajax: '{{ route('customer.list.ajax') }}',
               
-                columns:[
-                    {"data":"DT_RowIndex"},
-                    {"data":"name"},
-                    {"data":"customer_number"},
-                    {"data":"father_name"},
-                    {"data":"mobile_number"},
-                    {"data":"customer_address"},
-                    {"data":"gender"},
-                    {"data":"meter_reading_zone"},
-                    {"data":"ward"},
-                    {"data":"number_of_consumers"},
-                    {"data":"customer_type"},
-                    {"data":"meter_connected_date"},
-                    {"data":"meter_serial"},
-                    {"data":"meter_status"},
-                    {"data": 'action', name: 'action'}
-                ],
-
-                 "columnDefs": [
-                    { "width": 5, "targets": 0 }
-                ]
 
             });
 

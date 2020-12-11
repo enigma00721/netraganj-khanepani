@@ -116,7 +116,7 @@ class CustomerController extends Controller
                 'Offline' .
                 "</span>";
         })
-        ->addColumn('action', function ($user) {
+        ->addColumn('action', function ($model) {
             return '<a href="#" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
         })
         ->rawColumns(['meter_status','action'])

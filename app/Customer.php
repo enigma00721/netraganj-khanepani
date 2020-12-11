@@ -17,7 +17,10 @@ class Customer extends Model
        'naksha_number' , 'sheet_number' , 'kitta_number' , 'area_of_land' , 'house_number' ,'purja_number'
     ];
     
-
+    public function getMobileNumber($value)
+    {
+        return ltrim($value);
+    }
     // relationship methods
      public function photos()
     {
