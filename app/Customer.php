@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
@@ -22,9 +23,18 @@ class Customer extends Model
         return ltrim($value);
     }
     // relationship methods
-     public function photos()
+    public function photos()
     {
         return $this->hasMany('App\Photo');
+    }
+
+    public function scopeFilterByRequest($query, Request $request)
+    {
+        if (!empty($request->input('name'))) 
+            $query->where('name', 'like' , '%'.$request->get('name') .'%');
+        if (!empty($request->input('customer_number'))) 
+            $query->where('customer_number','=',$request->get('customer_number'));
+        return $query;
     }
 
 }

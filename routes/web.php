@@ -31,7 +31,8 @@ Route::group(['middleware' => 'auth'], function (){
 
     Route::get('/meter/naamsaari', 'MeterController@meterNaamsaari')->name('meter.naamsaari');
     Route::get('/meter/thaausaari', 'MeterController@meterThaausaari')->name('meter.thaausaari');
-    Route::post('/meter/thaausaari', 'MeterController@meterThaausaariSubmit')->name('meter.thaausaari.submit');
+    Route::post('/meter/thaausaari/search', 'MeterController@meterThaausaariSearchSubmit')->name('meter.thaausaari.search.submit');
+    Route::post('/meter/thaausaari/submit', 'MeterController@meterThaausaariSubmit')->name('meter.thaausaari.submit');
 });
 
 
