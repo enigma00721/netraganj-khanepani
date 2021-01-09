@@ -7,6 +7,9 @@
     <link href="{{ asset('css/dataTables.buttons.css') }}" rel="stylesheet">
     
     <style>
+         label{
+            text-align:right;
+        }
         /* show 10 entries style */
         #example1_length{
             float:left;
@@ -34,6 +37,8 @@
 
 @section('content')
 
+	@include('partial.flash_message')
+
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -54,15 +59,27 @@
                 </h3>
             </div>
             <div class="card-body">
-                <form action="{{route('meter.thaausaari.submit')}}" method="POST">
+                <form action="{{route('meter.naamsaari.search.submit')}}" method="POST">
                     @csrf
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Customer Number</label>
-                        <input type="number" name="customer_number" class="form-control" id="exampleInputEmail1" placeholder="Enter Customer Number">
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label">
+                            Customer Name </label>
+                        <div class="col-sm-10">
+                            <input name="name" type="text" class="form-control @if($errors->has('name')) is-invalid @endif" >
+                            @if ($errors->has('name'))
+                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @endif
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Customer Name</label>
-                        <input type="text" name="name" class="form-control" id="exampleInputPassword1" placeholder="Enter Customer Name">
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-2 col-form-label">
+                            Customer Number</label>
+                        <div class="col-sm-10">
+                            <input name="customer_number" type="number" class="form-control @if($errors->has('customer_number')) is-invalid @endif">
+                            @if ($errors->has('customer_number'))
+                                <span class="text-danger">{{ $errors->first('customer_number') }}</span>
+                            @endif
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -73,6 +90,9 @@
     </div>
 
     @if (@isset($customers))
+
+    {{-- customer search list --}}
+
     <div class="col-12 col-sm-12 col-lg-12">
         <div class="card">
             <div class="card-header">
@@ -87,7 +107,6 @@
                             <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
                                 <thead>
                                     <tr role="row">
-                                        <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">S.No.</th>
                                         <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Customer Name</th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Customer Number</th>
                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Father Name</th>
@@ -103,13 +122,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr role="row" class="odd">
-                                        <td class="sorting_1">1</td>
-                                        <td>First Customer</td>
-                                        <td>16661</td>
-                                        <td>First Father</td>
-                                        <td>9941172265</td>
-                                    </tr>
+                                    @foreach($customers as $key=>$row)
+                                        <tr role="row" class="odd">
+                                            <td> {{$row->name}} </td>
+                                            <td>{{$row->customer_number}}</td>
+                                            <td>{{$row->father_name}}</td>
+                                            <td>{{$row->mobile_number}}</td>
+                                            <td>{{$row->customer_address}}</td>
+                                            <td>{{$row->gender}}</td>
+                                            <td>{{$row->meter_reading_zone}}</td>
+                                            <td>{{$row->ward}}</td>
+                                            <td>{{$row->number_of_consumers}}</td>
+                                            <td>
+                                                @if ($row->meter_status == 1)
+                                                    <span class="badge badge-success"> Online</span>
+                                                @else
+                                                    <span class="badge badge-danger"> Offline</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{route('meter.naamsaari.edit',$row->id)}}" class="btn btn-primary" >
+                                                    <i class="fas fa-user-edit"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -120,62 +157,38 @@
             </div>
         </div>
     </div>
+
+
+
     @endif
 
 
 @endsection
 
+
+
 @push('script')
+
+	@include('partial.flash_message_script')
+
     <script src="{{asset('js/jquery.dataTables.js')}}"></script>
     <script src="{{asset('js/dataTables.bootstrap.js')}}"></script>
-    <script src="{{asset('js/dataTables.buttons.js')}}"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+    
+    @isset($customers)
+        <script>
+            $(document).ready(function() {
+                var scrollSize = "";
+                var count = {{$customerCount}};
+                if(count > 1)scrollSize = "200px";
+                else scrollSize = "100px";
 
-
-
-    <script>
-        $(document).ready(function() {
-
-            var table = $('#example1').DataTable({
-                dom: 'Blftip',
-                lengthMenu: [10,20,50,100,500],
-                scrollY:"500px",
-                scrollX:true,
-                scrollCollapse: true,
-                fixedColumns: true,
-               
-                buttons: [
-                    {
-                        extend:'excel',
-                        exportOptions: {
-                            columns: ':visible :not(:last-child)'
-                        }
-                    },
-                    {
-                        extend: 'csv',
-                        exportOptions: {
-                            columns: ':visible :not(:last-child)'
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: ':visible :not(:last-child)'
-                        }
-                    }
-                ],
-              
+                var table = $('#example1').DataTable({
+                    scrollY:scrollSize,                 // dynamic scrollY
+                    searching: false,
+                    lengthChange: false,
+                });
 
             });
-
-        });
-       
-
-       
-    </script>
+        </script>
+    @endisset
 @endpush

@@ -9,7 +9,9 @@
           integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
           crossorigin="anonymous"/>
 
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <!-- <link href="{{ mix('css/app.css') }}" rel="stylesheet"> -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- @yield('third_party_stylesheets') -->
     @stack('style')
@@ -29,19 +31,15 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    <img src="https://infyom.com/images/logo/blue_logo_150x150.jpg"
-                         class="user-image img-circle elevation-2" alt="User Image">
+                    <i class="fas fa-user"></i>
                     <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <!-- User image -->
                     <li class="user-header bg-primary">
-                        <img src="https://infyom.com/images/logo/blue_logo_150x150.jpg"
-                             class="img-circle elevation-2"
-                             alt="User Image">
                         <p>
                             {{ Auth::user()->name }}
-                            <small>Member since {{ Auth::user()->created_at->format('M. Y') }}</small>
+                            <small>Member since {{ Auth::user()->created_at->format('M - Y') }}</small>
                         </p>
                     </li>
                     <!-- Menu Footer-->
@@ -81,11 +79,12 @@
 </div>
 {{-- wrapper end --}}
 
-<script src="{{ mix('js/app.js') }}" ></script>
+<!-- <script src="{{ mix('js/app.js') }}" ></script> -->
+<script src="{{ asset('js/app.js') }}" ></script>
 <!-- <script src="{{ mix('js/app.js') }}" defer></script> -->
 <!--               Note : without defer jquery is loaded -->
 
-@yield('third_party_scripts')
+<!-- @yield('third_party_scripts') -->
 
 @stack('script')
 </body>

@@ -23,9 +23,9 @@ class Customer extends Model
         return ltrim($value);
     }
     // relationship methods
-    public function photos()
+    public function photo()
     {
-        return $this->hasMany('App\Photo');
+        return $this->hasOne('App\Photo');
     }
 
     public function scopeFilterByRequest($query, Request $request)

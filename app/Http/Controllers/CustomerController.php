@@ -78,7 +78,8 @@ class CustomerController extends Controller
         $customer = Customer::create($request->all());
         $imageFiles = $this->checkImageRequest($request);
 
-        $uploadSuccess = (new ImageUploadService())->storeImage($imageFiles,$customer->id);
+        // image upload service class
+        $uploadSuccess = (new ImageUploadService())->storeImage($imageFiles,$customer->id,0);
         
         if($customer && $uploadSuccess){
             return redirect()->back()->with('success_message','Customer has been registered successfully!');

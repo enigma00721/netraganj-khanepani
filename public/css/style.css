@@ -1,0 +1,8 @@
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+    height: 100px !important;
+}
+
+#currentMonth #ndp-month-select,
+#currentMonth #ndp-year-select {
+    width: 70px !important;
+}

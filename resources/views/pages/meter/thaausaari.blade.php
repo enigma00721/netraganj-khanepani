@@ -124,7 +124,13 @@
                                         <td>{{$row->customer_address}}</td>
                                         <td>{{$row->meter_reading_zone}}</td>
                                         <td>{{$row->ward}}</td>
-                                        <td>{{$row->meter_status}}</td>
+                                        <td>
+                                            @if ($row->meter_status == 1)
+                                                <span class="badge badge-success"> Online</span>
+                                            @else
+                                                <span class="badge badge-danger"> Offline</span>
+                                            @endif
+                                        </td>
                                         <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg-{{$key}}"><i class="fas fa-user-edit"></i></a></td>
                                     </tr>
                                     @endforeach
@@ -160,12 +166,12 @@
                                 Name
                             </label>
                             <div class="col-sm-9">
-                                <input name="name" value="{{$row->name}}" type="text" class="form-control"  placeholder="Name">
+                                <input name="name" value="{{$row->name}}" type="text" class="form-control"  placeholder="Name" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputPassword3" class="col-sm-3 col-form-label">
-                                Customer Address
+                                Customer Old Address
                             </label>
                             <div class="col-sm-9">
                                 <input name="customer_old_address" value="{{$row->customer_address}}" type="text" 
@@ -182,7 +188,7 @@
                             </label>
                             <div class="col-sm-9">
                                 <input name="customer_address" type="text" placeholder="Enter Customer New Address"
-                                    class="form-control @if($errors->has('customer_address')) is-invalid @endif" >
+                                    class="form-control @if($errors->has('customer_address')) is-invalid @endif" required>
                                 @if ($errors->has('customer_address'))
                                     <span class="text-danger">{{ $errors->first('customer_address') }}</span>
                                 @endif
@@ -274,21 +280,21 @@
     <script src="{{asset('js/dataTables.bootstrap.js')}}"></script>
     
     @isset($customers)
-    <script>
-        $(document).ready(function() {
-            var scrollSize = "";
-            var count = {{$customerCount}};
-            if(count > 1)scrollSize = "200px";
-            else scrollSize = "100px";
+        <script>
+            $(document).ready(function() {
+                var scrollSize = "";
+                var count = {{$customerCount}};
+                if(count > 1)scrollSize = "200px";
+                else scrollSize = "100px";
 
-            var table = $('#example1').DataTable({
-                scrollY:scrollSize,                 // dynamic scrollY
-                searching: false,
-                lengthChange: false,
-                responsive: true,
+                var table = $('#example1').DataTable({
+                    scrollY:scrollSize,                 // dynamic scrollY
+                    searching: false,
+                    lengthChange: false,
+                    responsive: true,
+                });
+
             });
-
-        });
-    </script>
+        </script>
     @endisset
 @endpush

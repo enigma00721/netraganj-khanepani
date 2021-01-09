@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Customer Register')
+
+
 @push('style')
+<link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/nepali.datepicker.min.css')}}">
 <style type="text/css">
 	label{
@@ -12,9 +16,6 @@
 	hr{
 		border: 1px solid #dee2e6;
 		margin: 3rem;
-	}
-	#currentMonth #ndp-month-select, #currentMonth #ndp-year-select{
-		width: 70px !important;
 	}
 </style>
 @endpush
@@ -482,7 +483,7 @@
 			$('#nepali-datepicker-2').nepaliDatePicker({
 				ndpYear: true,
 				ndpMonth: true,
-				ndpYearCount: 10
+				ndpYearCount: 30
 			});
 		});
 	</script>
