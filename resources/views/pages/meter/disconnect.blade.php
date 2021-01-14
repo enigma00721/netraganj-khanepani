@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Meter Thaausaari')
+@section('title', 'Meter Disconnect')
 
 @push('style')
     <link href="{{ asset('css/dataTables.bootstrap.css') }}" rel="stylesheet">
@@ -43,7 +43,7 @@
         <div class="row mb-2">
           <div class="col-sm-12">
             <h1>
-               Meter Thaausaari
+               Meter Disconnect
             </h1>
           </div>
 	  	</div><!-- /.container-fluid -->
@@ -58,7 +58,7 @@
                 </h3>
             </div>
             <div class="card-body">
-                <form action="{{route('meter.thaausaari.search.submit')}}" method="POST">
+                <form action="{{route('meter.disconnect.search.submit')}}" method="POST">
                     @csrf
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">
@@ -161,102 +161,117 @@
                 @csrf
                 <input type="hidden" name="id" value="{{$row->id}}">
                 <div class="modal-body">
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-3 col-form-label">
-                                Customer Name
-                            </label>
-                            <div class="col-sm-9">
-                                <input name="name" value="{{$row->name}}" type="text" class="form-control"
-                                disabled="disabled"  placeholder="Name" required>
-                            </div>
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">
+                            Name
+                        </label>
+                        <div class="col-sm-9">
+                            <input name="name" value="{{$row->name}}" type="text" class="form-control"  placeholder="Name" disabled="disabled">
                         </div>
-                        <div class="form-group row">
-                            <label for="inputPassword3" class="col-sm-3 col-form-label">
-                                Customer Old Address
-                            </label>
-                            <div class="col-sm-9">
-                                <input name="customer_old_address" value="{{$row->customer_address}}" type="text" 
-                                    class="form-control" disabled="disabled">
-                                @if ($errors->has('customer_address'))
-                                    <span class="text-danger">{{ $errors->first('customer_address') }}</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="inputPassword3" class="col-sm-3 col-form-label">
-                                New Address
-                                <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <input name="customer_address" type="text" placeholder="Enter Customer New Address"
-                                    class="form-control @if($errors->has('customer_address')) is-invalid @endif" required>
-                                @if ($errors->has('customer_address'))
-                                    <span class="text-danger">{{ $errors->first('customer_address') }}</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="meter_reading_zone" class="col-sm-3 col-form-label">Meter Reading Zone 
-                            <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <select class="form-control " name="meter_reading_zone">
-                                    <option value="1" {{ ( $row->meter->meter_reading_zone == 1 ) ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ ( $row->meter->meter_reading_zone == 2 ) ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ ( $row->meter->meter_reading_zone == 3 ) ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ ( $row->meter->meter_reading_zone == 4 ) ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ ( $row->meter->meter_reading_zone == 5 ) ? 'selected' : '' }}>5</option>
-                                    <option value="6" {{ ( $row->meter->meter_reading_zone == 6 ) ? 'selected' : '' }}>6</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="ward" class="col-sm-3 col-form-label">Meter Reading Ward <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <select class="form-control " name="ward">
-                                    <option value="1" {{ ( $row->meter->ward == 1 ) ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ ( $row->meter->ward == 2 ) ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ ( $row->meter->ward == 3 ) ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ ( $row->meter->ward == 4 ) ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ ( $row->meter->ward == 5 ) ? 'selected' : '' }}>5</option>
-                                    <option value="6" {{ ( $row->meter->ward == 6 ) ? 'selected' : '' }}>6</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="tap_type" class="col-sm-3 col-form-label">Tap Type
-                                <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <select class="form-control @if($errors->has('tap_type')) is-invalid @endif" name="tap_type">
-                                    <option value="permanent" {{ ( $row->meter->tap_type == 'permanent' ) ? 'selected' : '' }}>Permanent</option>
-                                    <option value="temporary" {{ ( $row->meter->tap_type == 'temporary' ) ? 'selected' : '' }}>Temporary</option>
-                                </select>
-                            @if ($errors->has('tap_type'))
-                                <span class="text-danger">{{ $errors->first('tap_type') }}</span>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">
+                            Customer Address
+                        </label>
+                        <div class="col-sm-9">
+                            <input name="customer_old_address" value="{{$row->customer_address}}" type="text" 
+                                class="form-control" disabled="disabled">
+                            @if ($errors->has('customer_address'))
+                                <span class="text-danger">{{ $errors->first('customer_address') }}</span>
                             @endif
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <label for="meter_reading_zone" class="col-sm-3 col-form-label">Meter Reading Zone 
+                        <font style="font-size: medium;" color="red"> * </font>
+                        </label>
+                        <div class="col-sm-9">
+                            <select class="form-control " name="meter_reading_zone" disabled="disabled">
+                                <option value="1" {{ ( $row->meter->meter_reading_zone == 1 ) ? 'selected' : '' }}>1</option>
+                                <option value="2" {{ ( $row->meter->meter_reading_zone == 2 ) ? 'selected' : '' }}>2</option>
+                                <option value="3" {{ ( $row->meter->meter_reading_zone == 3 ) ? 'selected' : '' }}>3</option>
+                                <option value="4" {{ ( $row->meter->meter_reading_zone == 4 ) ? 'selected' : '' }}>4</option>
+                                <option value="5" {{ ( $row->meter->meter_reading_zone == 5 ) ? 'selected' : '' }}>5</option>
+                                <option value="6" {{ ( $row->meter->meter_reading_zone == 6 ) ? 'selected' : '' }}>6</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ward" class="col-sm-3 col-form-label">Meter Reading Ward <font style="font-size: medium;" color="red"> * </font>
+                        </label>
+                        <div class="col-sm-9">
+                            <select class="form-control " name="ward" disabled="disabled">
+                                <option value="1" {{ ( $row->meter->ward == 1 ) ? 'selected' : '' }}>1</option>
+                                <option value="2" {{ ( $row->meter->ward == 2 ) ? 'selected' : '' }}>2</option>
+                                <option value="3" {{ ( $row->meter->ward == 3 ) ? 'selected' : '' }}>3</option>
+                                <option value="4" {{ ( $row->meter->ward == 4 ) ? 'selected' : '' }}>4</option>
+                                <option value="5" {{ ( $row->meter->ward == 5 ) ? 'selected' : '' }}>5</option>
+                                <option value="6" {{ ( $row->meter->ward == 6 ) ? 'selected' : '' }}>6</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="tap_type" class="col-sm-3 col-form-label">Tap Type
+                            <font style="font-size: medium;" color="red"> * </font>
+                        </label>
+                        <div class="col-sm-9">
+                            <select class="form-control" disabled="disabled" name="tap_type">
+                                <option value="permanent" {{ ( $row->meter->tap_type == 'permanent' ) ? 'selected' : '' }}>Permanent</option>
+                                <option value="temporary" {{ ( $row->meter->tap_type == 'temporary' ) ? 'selected' : '' }}>Temporary</option>
+                            </select>
+                        @if ($errors->has('tap_type'))
+                            <span class="text-danger">{{ $errors->first('tap_type') }}</span>
+                        @endif
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="tap_size" class="col-sm-3 col-form-label">Tap Size 
+                            <font style="font-size: medium;" color="red"> * </font>
+                        </label>
+                        <div class="col-sm-9">
+                            <select class="form-control" disabled="disabled" name="tap_size">
+                                <option value="0.5" {{ ( $row->meter->ward == 0.5 ) ? 'selected' : '' }}>0.5</option>
+                                <option value="1" {{ ( $row->meter->ward == 1 ) ? 'selected' : '' }}>1</option>
+                            </select>
+                            @if ($errors->has('tap_size'))
+                                <span class="text-danger">{{ $errors->first('tap_size') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="tap_size" class="col-sm-3 col-form-label">Reason
+                            <font style="font-size: medium;" color="red"> * </font>
+                        </label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="reason">
+                                <option value="1">Dharauti Firta</option>
+                                <option value="2">Double Entry Vayeko</option>
+                            </select>
+                            @if ($errors->has('tap_size'))
+                                <span class="text-danger">{{ $errors->first('tap_size') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="tap_size" class="col-sm-3 col-form-label">Apply Charge
+                            <font style="font-size: medium;" color="red"> * </font>
+                        </label>
+                        <div class="col-sm-9 ">
+                            <div class="form-check">
+                                <input id="charge" class="form-check-input" type="checkbox">
+                                <label for="charge" class="form-check-label">Disconnect Charge</label>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="tap_size" class="col-sm-3 col-form-label">Tap Size 
-                                <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <select class="form-control @if($errors->has('tap_size')) is-invalid @endif" name="tap_size">
-                                    <option value="0.5" {{ ( $row->meter->tap_size == 0.5 ) ? 'selected' : '' }}>0.5</option>
-                                    <option value="1" {{ ( $row->meter->tap_size == 1 ) ? 'selected' : '' }}>1</option>
-                                </select>
-                                @if ($errors->has('tap_size'))
-                                    <span class="text-danger">{{ $errors->first('tap_size') }}</span>
-                                @endif
-                            </div>
-                        </div>
+                    </div>
+                    <div class="offset-md-3" style="display:none;" id="disconnect-charge-div">
+                        <label for="">Disconnect Charge Rs.55</label>
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Disconnect</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </form> 
           </div>
@@ -297,4 +312,14 @@
             });
         </script>
     @endisset
+    <script>
+        $('#charge').click(function(){
+            if($(this).prop("checked") == true){
+                console.log("Checkbox is checked.");
+                $('#disconnect-charge-div').show();
+            }else{
+                $('#disconnect-charge-div').hide();
+            }
+        })
+    </script>
 @endpush

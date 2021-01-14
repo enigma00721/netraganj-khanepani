@@ -87,5 +87,7 @@
 <!-- @yield('third_party_scripts') -->
 
 @stack('script')
+
+{{ \Debugbar::enable() }}
 </body>
 </html>

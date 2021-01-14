@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Photo;
 use App\Customer;
+use App\Meter;
+use App\LandInfo;
+use App\CustomerNepaliField;
 use App\Services\ImageUploadService;
 use App\Http\Requests\StoreCustomerPost;
 use DataTables;
@@ -43,7 +46,7 @@ class CustomerController extends Controller
     // return unique customer number with 5 digits
     public function generateCustomerNumber()
     {
-        $digits = 5;
+        $digits = 10;
         return rand(pow(10, $digits-1), pow(10, $digits)-1);
     }
 
@@ -76,12 +79,21 @@ class CustomerController extends Controller
     public function store(StoreCustomerPost $request)
     {
         $customer = Customer::create($request->all());
+
+        // relationship model save
+        $request->request->add(['customer_id' => $customer->id]); //add request (foreign key)
+
+        Meter::create($request->only(['customer_id','meter_serial','meter_initial_reading','meter_connected_date','meter_reading_zone','ward','tap_type','tap_size','number_of_consumers']));
+        CustomerNepaliField::create($request->only(['customer_id','customer_name_nepali','customer_address_nepali','customer_father_name_nepali','customer_grandfather_name_nepali']));
+        LandInfo::create($request->only(['customer_id','naksha_number','sheet_number','kitta_number','area_of_land','house_number','purja_number']));
+
         $imageFiles = $this->checkImageRequest($request);
 
         // image upload service class
-        $uploadSuccess = (new ImageUploadService())->storeImage($imageFiles,$customer->id,0);
-        
-        if($customer && $uploadSuccess){
+        if(!empty($imageFiles)){
+            $uploadSuccess = (new ImageUploadService())->storeImage($imageFiles,$customer->id,0);
+        }
+        if($customer){
             return redirect()->back()->with('success_message','Customer has been registered successfully!');
         }else{
             return redirect()->back()->with('error_message','Customer could not be registered!');
@@ -95,34 +107,30 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function list()
-    {
-        $customers = Customer::all();
-        // return view('pages.customer.list');
-        return view('pages.customer.list',compact('customers'));
+    { 
+        return view('pages.customer.list');
     }
 
-    // ajax request to load customers dynamically
+    // ajax request to load customers dynamically in customer list page
     public function getCustomers()
     {
-        $model = Customer::all();
-        return DataTables::of($model)
+        $customer = Customer::with('meter')->get();
+
+        return DataTables::of($customer)
         ->addIndexColumn()
-        ->editColumn('meter_status', function ($model) {
-            if ($model->meter_status === 1) {
-                return "<span class='badge badge-success'> " .
-                'Online' .
-                "</span>";
-            }else
-            return "<span class='badge badge-danger'>" .
-                'Offline' .
-                "</span>";
+        ->editColumn('meter_status', function ($customer) {
+            if ($customer->meter["meter_status"] == 1) 
+                return "<span class='badge badge-success'> " .'Online' . "</span>";
+            else
+                return "<span class='badge badge-danger'>" . 'Offline' . "</span>";
         })
-        ->addColumn('action', function ($model) {
-            return '<a href="#" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+        ->editColumn('action', function ($customer) {
+            return '<a href="'.route('customer.edit', $customer->id).'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
         })
         ->rawColumns(['meter_status','action'])
         ->toJson();
     }
+
     /**
      * Display the specified resource.
      *
@@ -142,7 +150,11 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $row = Customer::where('id','=',$id)->with(['meter','customer_nepali_field','land_info'])->first();
+        if(!$row){
+            return redirect()->back()->with('error_message','Customer Not Found');
+        }
+        return view('pages.customer.edit',compact('row'));   
     }
 
     /**

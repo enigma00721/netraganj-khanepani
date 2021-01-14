@@ -50,5 +50,17 @@
 	      <p>Thaausaari</p>
 	    </a>
 	  </li>
+	  <li class="nav-item">
+	    <a href="{{route('meter.change')}}" class="nav-link {{ (request()->is('meter/change*')) ? 'active' : '' }}">
+	      <i class="far fa-circle nav-icon"></i>
+	      <p>Change Meter</p>
+	    </a>
+	  </li>
+	  <li class="nav-item">
+	    <a href="{{route('meter.disconnect')}}" class="nav-link {{ (request()->is('meter/disconnect*')) ? 'active' : '' }}">
+	      <i class="far fa-circle nav-icon"></i>
+	      <p>Disconnect Meter</p>
+	    </a>
+	  </li>
 	</ul>
 </li>

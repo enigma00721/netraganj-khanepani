@@ -130,11 +130,11 @@
                                             <td>{{$row->mobile_number}}</td>
                                             <td>{{$row->customer_address}}</td>
                                             <td>{{$row->gender}}</td>
-                                            <td>{{$row->meter_reading_zone}}</td>
-                                            <td>{{$row->ward}}</td>
-                                            <td>{{$row->number_of_consumers}}</td>
+                                            <td>{{$row->meter->meter_reading_zone}}</td>
+                                            <td>{{$row->meter->ward}}</td>
+                                            <td>{{$row->meter->number_of_consumers}}</td>
                                             <td>
-                                                @if ($row->meter_status == 1)
+                                                @if ($row->meter->meter_status == 1)
                                                     <span class="badge badge-success"> Online</span>
                                                 @else
                                                     <span class="badge badge-danger"> Offline</span>

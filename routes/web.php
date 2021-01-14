@@ -18,7 +18,6 @@ Route::get('/', function () {
 });
 Auth::routes();
 
-
 Route::group(['middleware' => 'auth'], function (){
     
     Route::get('/home', 'HomeController@index')->name('home');
@@ -27,6 +26,7 @@ Route::group(['middleware' => 'auth'], function (){
     Route::get('/customer/register', 'CustomerController@create')->name('customer.register');
     Route::post('/customer/register', 'CustomerController@store')->name('customer.register.submit');
     Route::get('/customer/list', 'CustomerController@list')->name('customer.list');
+    Route::get('/customer/edit/{id}', 'CustomerController@edit')->name('customer.edit');
     Route::get('/customer/list/ajax', 'CustomerController@getCustomers')->name('customer.list.ajax');
 
     Route::get('/meter/naamsaari', 'MeterController@meterNaamsaari')->name('meter.naamsaari');
@@ -37,6 +37,12 @@ Route::group(['middleware' => 'auth'], function (){
     Route::get('/meter/thaausaari', 'MeterController@meterThaausaari')->name('meter.thaausaari');
     Route::post('/meter/thaausaari/search', 'MeterController@meterThaausaariSearchSubmit')->name('meter.thaausaari.search.submit');
     Route::post('/meter/thaausaari/submit', 'MeterController@meterThaausaariSubmit')->name('meter.thaausaari.submit');
+
+    Route::get('/meter/change', 'MeterController@meterChange')->name('meter.change');
+    Route::post('/meter/change/search', 'MeterController@meterChangeSearchSubmit')->name('meter.change.search.submit');
+    
+    Route::get('/meter/disconnect', 'MeterController@meterDisconnect')->name('meter.disconnect');
+    Route::post('/meter/disconnect/search', 'MeterController@meterDisconnectSearchSubmit')->name('meter.disconnect.search.submit');
 });
 
 

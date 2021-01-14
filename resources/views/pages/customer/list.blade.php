@@ -32,6 +32,8 @@
 
 @section('content')
 
+	@include('partial.flash_message')
+
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -95,7 +97,7 @@
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
 
-
+	@include('partial.flash_message_script')
 
     <script>
         $(document).ready(function() {
@@ -144,12 +146,12 @@
                     {"data":"mobile_number"},
                     {"data":"customer_address"},
                     {"data":"gender"},
-                    {"data":"meter_reading_zone"},
-                    {"data":"ward"},
-                    {"data":"number_of_consumers"},
+                    {"data":"meter.meter_reading_zone"},
+                    {"data":"meter.ward"},
+                    {"data":"meter.number_of_consumers"},
                     {"data":"customer_type"},
-                    {"data":"meter_connected_date"},
-                    {"data":"meter_serial"},
+                    {"data":"meter.meter_connected_date"},
+                    {"data":"meter.meter_serial"},
                     {"data":"meter_status"},
                     {"data": 'action', name: 'action'}
                 ],

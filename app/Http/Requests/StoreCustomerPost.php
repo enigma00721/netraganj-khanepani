@@ -26,9 +26,12 @@ class StoreCustomerPost extends FormRequest
     {
         return [
             'name' => 'required',
+            'customer_name_nepali' => 'required',
             'customer_number' => 'unique:customers',
+            'old_system_no' => 'required|unique:customers',
             'gender' => 'required|in:male,female,others',
             'customer_address' => 'required|string|min:3|max:50',
+            'customer_address_nepali' => 'required|string|min:3|max:200',
             'customer_type' => 'required|in:dalit,private',
             'mobile_number' => 'required|numeric|digits_between:5,15',
 
@@ -48,11 +51,11 @@ class StoreCustomerPost extends FormRequest
             'house_number' => 'string|max:20|nullable',
             'purja_number' => 'string|max:20|nullable',
 
-            'customer_photo' => 'mimes:jpeg,jpg,png,jpg|nullable|max:2048', // 2mb
-            'citizenship_front' => 'mimes:jpeg,jpg,png,jpg|nullable|max:2048' ,
-            'citizenship_back' => 'mimes:jpeg,jpg,png,jpg|nullable|max:2048' ,
-            'naksa' => 'mimes:jpeg,jpg,png,jpg|nullable|max:2048' ,
-            'lalpurja' => 'mimes:jpeg,jpg,png,jpg|nullable|max:2048' ,
+            'customer_photo' => 'mimes:jpeg,jpg,png,jpg|nullable|max:4096', // 4mb
+            'citizenship_front' => 'mimes:jpeg,jpg,png,jpg|nullable|max:4096' ,
+            'citizenship_back' => 'mimes:jpeg,jpg,png,jpg|nullable|max:4096' ,
+            'naksa' => 'mimes:jpeg,jpg,png,jpg|nullable|max:4096' ,
+            'lalpurja' => 'mimes:jpeg,jpg,png,jpg|nullable|max:4096' ,
         ];
     }
 

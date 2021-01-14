@@ -68,7 +68,7 @@
 									Customer Name <font style="font-size: medium;" color="red"> * </font>
 								</label>
 								<div class="col-sm-10">
-									<input name="name" type="text" class="form-control @if($errors->has('name')) is-invalid @endif"  placeholder="Customer Name" value="{{old('name')}}">
+									<input name="name" type="text" class="form-control @if($errors->has('name')) is-invalid @endif"  placeholder="Customer Name" value="{{$row->name}}">
 									@if ($errors->has('name'))
 										<span class="text-danger">{{ $errors->first('name') }}</span>
 									@endif
@@ -79,7 +79,7 @@
 									Customer Name (Nepali) <font style="font-size: medium;" color="red"> * </font>
 								</label>
 								<div class="col-sm-10">
-									<input name="customer_name_nepali" type="text" class="form-control @if($errors->has('customer_name_nepali')) is-invalid @endif"  placeholder="Customer Name in Nepali" value="{{old('customer_name_nepali')}}">
+									<input name="customer_name_nepali" type="text" class="form-control @if($errors->has('customer_name_nepali')) is-invalid @endif"  placeholder="Customer Name in Nepali" value="{{$row->customer_nepali_field->customer_name_nepali}}">
 									@if ($errors->has('customer_name_nepali'))
 										<span class="text-danger">{{ $errors->first('customer_name_nepali') }}</span>
 									@endif
@@ -89,7 +89,7 @@
 								<label for="inputPassword3" class="col-sm-2 col-form-label">
 									Customer Number <font style="font-size: medium;" color="red"> * </font></label>
 								<div class="col-sm-10">
-									<input name="customer_number" type="number" class="form-control @if($errors->has('customer_number')) is-invalid @endif" readonly="readonly" value="{{$customer_no}}">
+									<input name="customer_number" type="number" class="form-control @if($errors->has('customer_number')) is-invalid @endif" readonly="readonly" value="{{$row->customer_number}}">
 									@if ($errors->has('customer_number'))
 										<span class="text-danger">{{ $errors->first('customer_number') }}</span>
 									@endif
@@ -99,7 +99,7 @@
 								<label for="inputPassword3" class="col-sm-2 col-form-label">
 									Old System Number <font style="font-size: medium;" color="red"> * </font></label>
 								<div class="col-sm-10">
-									<input name="old_system_no" type="text" class="form-control @if($errors->has('old_system_no')) is-invalid @endif" value="{{old('old_system_no')}}" placeholder="Old System Number">
+									<input name="old_system_no" type="text" class="form-control @if($errors->has('old_system_no')) is-invalid @endif" value="{{$row->old_system_no}}" placeholder="Old System Number">
 									@if ($errors->has('old_system_no'))
 										<span class="text-danger">{{ $errors->first('old_system_no') }}</span>
 									@endif
@@ -108,25 +108,25 @@
 							<div class="form-group row">
 								<label for="inputPassword3" class="col-sm-2 col-form-label">Father's Name</label>
 								<div class="col-sm-10">
-								<input name="father_name" type="text" class="form-control" value="{{ old('father_name') }}" placeholder="Father's Name" >
+								<input name="father_name" type="text" class="form-control" value="{{ $row->father_name }}" placeholder="Father's Name" >
 								</div>
 							</div>
 							<div class="form-group row">
 								<label for="inputPassword3" class="col-sm-2 col-form-label">Father's Name (Nepali)</label>
 								<div class="col-sm-10">
-								<input name="customer_father_name_nepali" type="text" class="form-control" value="{{ old('customer_father_name_nepali') }}" placeholder="Father's Name in Nepali" >
+								<input name="customer_father_name_nepali" type="text" class="form-control" value="{{ $row->customer_nepali_field->customer_father_name_nepali }}" placeholder="Father's Name in Nepali" >
 								</div>
 							</div>
 							<div class="form-group row">
 								<label for="inputPassword3" class="col-sm-2 col-form-label">Grand Father Name</label>
 								<div class="col-sm-10">
-								<input name="grandfather_name" type="text" class="form-control" value="{{ old('grandfather_name')}}" placeholder="Grand Father Name">
+								<input name="grandfather_name" type="text" class="form-control" value="{{ $row->grandfather_name}}" placeholder="Grand Father Name">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label for="inputPassword3" class="col-sm-2 col-form-label">Grand Father Name (Nepali)</label>
 								<div class="col-sm-10">
-								<input name="customer_grandfather_name_nepali" type="text" class="form-control" value="{{ old('customer_grandfather_name_nepali')}}" placeholder="Grand Father Name in Nepali">
+								<input name="customer_grandfather_name_nepali" type="text" class="form-control" value="{{ $row->customer_nepali_field->customer_grandfather_name_nepali}}" placeholder="Grand Father Name in Nepali">
 								</div>
 							</div>
 							
@@ -137,7 +137,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
 										</div>
-										<input type="text" name="customer_dob" id="nepali-datepicker" value="{{ old('customer_dob')}}" class="form-control" data-inputmask-alias="datetime" placeholder="yyyy/mm/dd" data-mask="" im-insert="false">
+										<input type="text" name="customer_dob" id="nepali-datepicker" value="{{ $row->customer_dob}}" class="form-control" data-inputmask-alias="datetime" placeholder="yyyy/mm/dd" data-mask="" im-insert="false">
 									</div>
 									@if ($errors->has('customer_dob'))
 										<span class="text-danger">{{ $errors->first('customer_dob') }}</span>
@@ -147,13 +147,13 @@
 							<div class="form-group row">
 								<label for="inputPassword3" class="col-sm-2 col-form-label">Citizenship Number</label>
 								<div class="col-sm-10">
-								<input name="citizenship_number" type="text" class="form-control" value="{{ old('citizenship_number')}}" placeholder="Citizenship Number">
+								<input name="citizenship_number" type="text" class="form-control" value="{{ $row->citizenship_number}}" placeholder="Citizenship Number">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label for="inputPassword3" class="col-sm-2 col-form-label">Citizenship Issued District</label>
 								<div class="col-sm-10">
-								<input name="citizenship_issued_district" type="text" class="form-control" value="{{ old('citizenship_issued_district')}}" placeholder="Citizenship Issued District">
+								<input name="citizenship_issued_district" type="text" class="form-control" value="{{ $row->citizenship_issued_district}}" placeholder="Citizenship Issued District">
 								</div>
 							</div>
 							
@@ -163,9 +163,9 @@
 								</label>
 								<div class="col-sm-10">
 									<select class="form-control @if($errors->has('gender')) is-invalid @endif" name="gender">
-										<option value="male">Male</option>
-										<option value="female">Female</option>
-										<option value="others">Others</option>
+										<option value="male" {{ ($row->gender == 'male') ? "selected='selected'" : ""}}>Male</option>
+										<option value="female" {{ ($row->gender == 'female') ? "selected='selected'" : ""}}>Female</option>
+										<option value="others" {{ ($row->gender == 'others') ? "selected='selected'" : ""}}>Others</option>
 									</select>
 									@if ($errors->has('gender'))
 										<span class="text-danger">{{ $errors->first('gender') }}</span>
@@ -177,7 +177,7 @@
 									Customer Address/Tole <font style="font-size: medium;" color="red"> * </font>
 								</label>
 								<div class="col-sm-10">
-									<input name="customer_address" type="text" value="{{ old('customer_address')}}" class="form-control @if($errors->has('customer_address')) is-invalid @endif" placeholder="Customer Address">
+									<input name="customer_address" type="text" value="{{ $row->customer_address}}" class="form-control @if($errors->has('customer_address')) is-invalid @endif" placeholder="Customer Address">
 									@if ($errors->has('customer_address'))
 										<span class="text-danger">{{ $errors->first('customer_address') }}</span>
 									@endif
@@ -188,7 +188,7 @@
 									Customer Address (Nepali) <font style="font-size: medium;" color="red"> * </font>
 								</label>
 								<div class="col-sm-10">
-									<input name="customer_address_nepali" type="text" value="{{ old('customer_address_nepali')}}" class="form-control @if($errors->has('customer_address_nepali')) is-invalid @endif" placeholder="Customer Address in Nepali">
+									<input name="customer_address_nepali" type="text" value="{{ $row->customer_address_nepali}}" class="form-control @if($errors->has('customer_address_nepali')) is-invalid @endif" placeholder="Customer Address in Nepali">
 									@if ($errors->has('customer_address_nepali'))
 										<span class="text-danger">{{ $errors->first('customer_address_nepali') }}</span>
 									@endif
@@ -199,8 +199,8 @@
 								<font style="font-size: medium;" color="red"> * </font></label>
 								<div class="col-sm-10">
 								<select class="form-control @if($errors->has('customer_type')) is-invalid @endif" name="customer_type">
-									<option value="private">Private</option>
-									<option value="dalit">Dalit</option>
+									<option value="private" {{ ($row->customer_type == 'private') ? 'selected' : '' }}>Private</option>
+									<option value="dalit" {{ ($row->customer_type == 'dalit') ? 'selected' : '' }}>Dalit</option>
 								</select>
 								@if ($errors->has('customer_type'))
 									<span class="text-danger">{{ $errors->first('customer_type') }}</span>
@@ -212,7 +212,7 @@
 								<label for="inputPassword3" class="col-sm-2 col-form-label">Customer Mobile Number <font style="font-size: medium;" color="red"> * </font>
 								</label>
 								<div class="col-sm-10">
-									<input name="mobile_number" type="text" value="{{ old('mobile_number')}}" class="form-control @if($errors->has('mobile_number')) is-invalid @endif" placeholder="Customer Mobile Number">
+									<input name="mobile_number" type="text" value="{{ $row->mobile_number}}" class="form-control @if($errors->has('mobile_number')) is-invalid @endif" placeholder="Customer Mobile Number">
 									@if ($errors->has('mobile_number'))
 										<span class="text-danger">{{ $errors->first('mobile_number') }}</span>
 									@endif
@@ -237,7 +237,7 @@
 							<label for="inputPassword3" class="col-sm-2 col-form-label">Meter Serial <font style="font-size: medium;" color="red"> * </font>
 							</label>
 							<div class="col-sm-10">
-								<input name="meter_serial" type="number" value="{{ old('meter_serial')}}" class="form-control @if($errors->has('meter_serial')) is-invalid @endif" placeholder="Meter Serial">
+								<input name="meter_serial" type="number" value="{{ $row->meter_serial}}" class="form-control @if($errors->has('meter_serial')) is-invalid @endif" placeholder="Meter Serial">
 								@if ($errors->has('meter_serial'))
 									<span class="text-danger">{{ $errors->first('meter_serial') }}</span>
 								@endif
@@ -248,7 +248,7 @@
 							<label for="inputPassword3" class="col-sm-2 col-form-label">Meter Initial Reading <font style="font-size: medium;" color="red"> * </font>
 							</label>
 							<div class="col-sm-10">
-								<input name="meter_initial_reading" type="number" value="{{ old('meter_initial_reading')}}" class="form-control @if($errors->has('meter_initial_reading')) is-invalid @endif" placeholder="Meter Initial Reading" >
+								<input name="meter_initial_reading" type="number" value="{{ $row->meter_initial_reading}}" class="form-control @if($errors->has('meter_initial_reading')) is-invalid @endif" placeholder="Meter Initial Reading" >
 								@if ($errors->has('meter_initial_reading'))
 									<span class="text-danger">{{ $errors->first('meter_initial_reading') }}</span>
 								@endif
@@ -261,7 +261,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
 									</div>
-								<input type="text" name="meter_connected_date" id="nepali-datepicker-2" value="{{ old('meter_connected_date')}}" class="form-control @if($errors->has('meter_connected_date')) is-invalid @endif" data-inputmask-alias="datetime" placeholder="yyyy/mm/dd" data-mask="" im-insert="false">
+								<input type="text" name="meter_connected_date" id="nepali-datepicker-2" value="{{ $row->meter_connected_date}}" class="form-control @if($errors->has('meter_connected_date')) is-invalid @endif" data-inputmask-alias="datetime" placeholder="yyyy/mm/dd" data-mask="" im-insert="false">
 								</div>
 								@if ($errors->has('meter_connected_date'))
 									<span class="text-danger">{{ $errors->first('meter_connected_date') }}</span>
@@ -333,7 +333,7 @@
 						<div class="form-group row">
 							<label for="number_of_consumers" class="col-sm-2 col-form-label">Number Of Consumers <font style="font-size: medium;" color="red"> * </font></label>
 							<div class="col-sm-10">
-								<input name="number_of_consumers" type="number" value="{{ old('number_of_consumers')}}" class="form-control @if($errors->has('number_of_consumers')) is-invalid @endif" placeholder="Number Of Consumers" >
+								<input name="number_of_consumers" type="number" value="{{ $row->number_of_consumers}}" class="form-control @if($errors->has('number_of_consumers')) is-invalid @endif" placeholder="Number Of Consumers" >
 								@if ($errors->has('number_of_consumers'))
 									<span class="text-danger">{{ $errors->first('number_of_consumers') }}</span>
 								@endif
@@ -356,7 +356,7 @@
 							<div class="form-group row">
 								<label for="naksha_number" class="col-sm-2 col-form-label">Naksha Number</label>
 								<div class="col-sm-10">
-									<input name="naksha_number" type="text" value="{{ old('naksha_number')}}" class="form-control @if($errors->has('naksha_number')) is-invalid @endif" placeholder="Naksha Number">
+									<input name="naksha_number" type="text" value="{{ $row->naksha_number}}" class="form-control @if($errors->has('naksha_number')) is-invalid @endif" placeholder="Naksha Number">
 									@if($errors->has('naksha_number'))
 										<span class="text-danger">{{ $errors->first('naksha_number') }}</span>
 									@endif
@@ -366,7 +366,7 @@
 							<div class="form-group row">
 								<label for="sheet_number" class="col-sm-2 col-form-label">Sheet Number</label>
 								<div class="col-sm-10">
-									<input name="sheet_number" type="text" value="{{ old('sheet_number')}}" class="form-control @if($errors->has('sheet_number')) is-invalid @endif" placeholder="Sheet Number">
+									<input name="sheet_number" type="text" value="{{ $row->sheet_number}}" class="form-control @if($errors->has('sheet_number')) is-invalid @endif" placeholder="Sheet Number">
 									@if($errors->has('sheet_number'))
 										<span class="text-danger">{{ $errors->first('sheet_number') }}</span>
 									@endif
@@ -375,7 +375,7 @@
 							<div class="form-group row">
 								<label for="kitta_number" class="col-sm-2 col-form-label">Kitta Number</label>
 								<div class="col-sm-10">
-									<input name="kitta_number" type="text" value="{{ old('kitta_number')}}" class="form-control @if($errors->has('kitta_number')) is-invalid @endif" placeholder="Kitta Number">
+									<input name="kitta_number" type="text" value="{{ $row->kitta_number}}" class="form-control @if($errors->has('kitta_number')) is-invalid @endif" placeholder="Kitta Number">
 									@if($errors->has('kitta_number'))
 										<span class="text-danger">{{ $errors->first('kitta_number') }}</span>
 									@endif
@@ -385,7 +385,7 @@
 							<div class="form-group row">
 								<label for="house_number" class="col-sm-2 col-form-label">House Number</label>
 								<div class="col-sm-10">
-									<input name="house_number" type="text" value="{{ old('house_number')}}" class="form-control @if($errors->has('house_number')) is-invalid @endif" placeholder="House Number">
+									<input name="house_number" type="text" value="{{ $row->house_number}}" class="form-control @if($errors->has('house_number')) is-invalid @endif" placeholder="House Number">
 									@if($errors->has('house_number'))
 										<span class="text-danger">{{ $errors->first('house_number') }}</span>
 									@endif
@@ -394,7 +394,7 @@
 							<div class="form-group row">
 								<label for="purja_number" class="col-sm-2 col-form-label">Purja Number</label>
 								<div class="col-sm-10">
-									<input name="purja_number" type="text" value="{{ old('purja_number')}}" class="form-control @if($errors->has('purja_number')) is-invalid @endif" placeholder="Purja Number">
+									<input name="purja_number" type="text" value="{{ $row->purja_number}}" class="form-control @if($errors->has('purja_number')) is-invalid @endif" placeholder="Purja Number">
 									@if($errors->has('purja_number'))
 										<span class="text-danger">{{ $errors->first('purja_number') }}</span>
 									@endif
@@ -403,7 +403,7 @@
 							<div class="form-group row">
 								<label for="area_of_land" class="col-sm-2 col-form-label">Area Of Land</label>
 								<div class="col-sm-10">
-									<input name="area_of_land" type="text" value="{{ old('area_of_land')}}" class="form-control @if($errors->has('area_of_land')) is-invalid @endif" placeholder="Area Of Land">
+									<input name="area_of_land" type="text" value="{{ $row->area_of_land}}" class="form-control @if($errors->has('area_of_land')) is-invalid @endif" placeholder="Area Of Land">
 									@if($errors->has('area_of_land'))
 										<span class="text-danger">{{ $errors->first('area_of_land') }}</span>
 									@endif

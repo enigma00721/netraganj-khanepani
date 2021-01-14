@@ -49,6 +49,16 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-3 col-form-label">Customer Mobile Number <font style="font-size: medium;" color="red"> * </font>
+                            </label>
+                            <div class="col-sm-9">
+                                <input name="mobile_number" type="text" value="{{ old('mobile_number')}}" class="form-control @if($errors->has('mobile_number')) is-invalid @endif" placeholder="Enter New Customer Mobile Number">
+                                @if ($errors->has('mobile_number'))
+                                    <span class="text-danger">{{ $errors->first('mobile_number') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="inputPassword3" class="col-sm-3 col-form-label">
                                 Customer Number <font style="font-size: medium;" color="red"> * </font></label>
                             <div class="col-sm-9">
@@ -128,16 +138,7 @@
                             
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="inputPassword3" class="col-sm-3 col-form-label">Customer Mobile Number <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <input name="mobile_number" type="text" value="{{ old('mobile_number')}}" class="form-control @if($errors->has('mobile_number')) is-invalid @endif" placeholder="Enter New Customer Mobile Number">
-                                @if ($errors->has('mobile_number'))
-                                    <span class="text-danger">{{ $errors->first('mobile_number') }}</span>
-                                @endif
-                            </div>
-                        </div>
+                        
 
                         <div class="form-group row">
                             <label for="inputPassword3" class="col-sm-3 col-form-label">
@@ -156,12 +157,12 @@
 							</label>
 							<div class="col-sm-9">
 								<select class="form-control @if($errors->has('meter_reading_zone')) is-invalid @endif" name="meter_reading_zone">
-									<option value="1" {{$row->meter_reading_zone==1?'selected':''}}>1</option>
-									<option value="2" {{$row->meter_reading_zone==2?'selected':''}}>2</option>
-									<option value="3" {{$row->meter_reading_zone==3?'selected':''}}>3</option>
-									<option value="4" {{$row->meter_reading_zone==4?'selected':''}}>4</option>
-									<option value="5" {{$row->meter_reading_zone==5?'selected':''}}>5</option>
-									<option value="6" {{$row->meter_reading_zone==6?'selected':''}}>6</option>
+									<option value="1" {{$row->meter->meter_reading_zone==1?'selected':''}}>1</option>
+									<option value="2" {{$row->meter->meter_reading_zone==2?'selected':''}}>2</option>
+									<option value="3" {{$row->meter->meter_reading_zone==3?'selected':''}}>3</option>
+									<option value="4" {{$row->meter->meter_reading_zone==4?'selected':''}}>4</option>
+									<option value="5" {{$row->meter->meter_reading_zone==5?'selected':''}}>5</option>
+									<option value="6" {{$row->meter->meter_reading_zone==6?'selected':''}}>6</option>
 								</select>
 								@if ($errors->has('meter_reading_zone'))
 									<span class="text-danger">{{ $errors->first('meter_reading_zone') }}</span>
@@ -173,12 +174,12 @@
 							</label>
 							<div class="col-sm-9">
 								<select class="form-control @if($errors->has('ward')) is-invalid @endif" name="ward">
-									<option value="1" {{$row->ward==1?'selected':''}}>1</option>
-									<option value="2" {{$row->ward==2?'selected':''}}>2</option>
-									<option value="3" {{$row->ward==3?'selected':''}}>3</option>
-									<option value="4" {{$row->ward==4?'selected':''}}>4</option>
-									<option value="5" {{$row->ward==5?'selected':''}}>5</option>
-									<option value="6" {{$row->ward==6?'selected':''}}>6</option>
+									<option value="1" {{$row->meter->ward==1?'selected':''}}>1</option>
+									<option value="2" {{$row->meter->ward==2?'selected':''}}>2</option>
+									<option value="3" {{$row->meter->ward==3?'selected':''}}>3</option>
+									<option value="4" {{$row->meter->ward==4?'selected':''}}>4</option>
+									<option value="5" {{$row->meter->ward==5?'selected':''}}>5</option>
+									<option value="6" {{$row->meter->ward==6?'selected':''}}>6</option>
 								</select>
 							@if ($errors->has('ward'))
 								<span class="text-danger">{{ $errors->first('ward') }}</span>
@@ -191,8 +192,8 @@
 							</label>
 							<div class="col-sm-9">
 								<select class="form-control @if($errors->has('tap_type')) is-invalid @endif" name="tap_type">
-									<option value="permanent" {{$row->tap_type=='permanent'?'selected':''}}>Permanent</option>
-									<option value="temporary" {{$row->tap_type=='temporary'?'selected':''}}>Temporary</option>
+									<option value="permanent" {{$row->meter->tap_type=='permanent'?'selected':''}}>Permanent</option>
+									<option value="temporary" {{$row->meter->tap_type=='temporary'?'selected':''}}>Temporary</option>
 								</select>
 							@if ($errors->has('tap_type'))
 								<span class="text-danger">{{ $errors->first('tap_type') }}</span>
@@ -205,8 +206,8 @@
 							</label>
 							<div class="col-sm-9">
 								<select class="form-control @if($errors->has('tap_size')) is-invalid @endif" name="tap_size">
-									<option value="0.5" {{$row->tap_size=='0.5'?'selected':''}}>0.5</option>
-									<option value="1" {{$row->tap_size=='1'?'selected':''}}>1</option>
+									<option value="0.5" {{$row->meter->tap_size=='0.5'?'selected':''}}>0.5</option>
+									<option value="1" {{$row->meter->tap_size=='1'?'selected':''}}>1</option>
 								</select>
 								@if ($errors->has('tap_size'))
 									<span class="text-danger">{{ $errors->first('tap_size') }}</span>
@@ -216,7 +217,7 @@
 						<div class="form-group row">
 							<label for="number_of_consumers" class="col-sm-3 col-form-label">Number Of Consumers <font style="font-size: medium;" color="red"> * </font></label>
 							<div class="col-sm-9">
-								<input name="number_of_consumers" type="number" value="{{ $row->number_of_consumers}}" class="form-control @if($errors->has('number_of_consumers')) is-invalid @endif" placeholder="Number Of Consumers" >
+								<input name="number_of_consumers" type="number" value="{{ $row->meter->number_of_consumers}}" class="form-control @if($errors->has('number_of_consumers')) is-invalid @endif" placeholder="Number Of Consumers" >
 								@if ($errors->has('number_of_consumers'))
 									<span class="text-danger">{{ $errors->first('number_of_consumers') }}</span>
 								@endif
@@ -265,6 +266,10 @@
                         <label for="name" class="col-sm-6 col-form-label">Mobile Number :</label>
                         <div  class="col-sm-6 col-form-label">{{$row->mobile_number}}</div>
                     </div>
+                    <div class="row form-group">
+                        <label for="name" class="col-sm-6 col-form-label">Customer Address :</label>
+                        <div  class="col-sm-6 col-form-label">{{$row->customer_address}}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -279,6 +284,7 @@
 	@include('partial.flash_message_script')
 
 	<script type="text/javascript" src="{{asset('js/nepali.datepicker.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/script.js')}}" ></script>
 
     {{-- initializing nepali data picker fields --}}
 	<script>

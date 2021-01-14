@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Meter Thaausaari')
+@section('title', 'Change Meter')
 
 @push('style')
     <link href="{{ asset('css/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/nepali.datepicker.min.css')}}">
     
     <style>
         label{
@@ -43,7 +44,7 @@
         <div class="row mb-2">
           <div class="col-sm-12">
             <h1>
-               Meter Thaausaari
+               Change Meter
             </h1>
           </div>
 	  	</div><!-- /.container-fluid -->
@@ -58,7 +59,7 @@
                 </h3>
             </div>
             <div class="card-body">
-                <form action="{{route('meter.thaausaari.search.submit')}}" method="POST">
+                <form action="{{route('meter.change.search.submit')}}" method="POST">
                     @csrf
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">
@@ -149,7 +150,7 @@
     <!-- customer thaausaari edit modal box -->
     @foreach($customers as $key=>$row)
     <div class="modal fade show" id="modal-lg-{{$key}}"  aria-modal="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Update Details</h4>
@@ -157,108 +158,101 @@
                 <span aria-hidden="true">×</span>
               </button>
             </div>
-            <form action="{{route('meter.thaausaari.submit')}}" method="POST">
-                @csrf
-                <input type="hidden" name="id" value="{{$row->id}}">
-                <div class="modal-body">
-                        <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-3 col-form-label">
-                                Customer Name
-                            </label>
-                            <div class="col-sm-9">
-                                <input name="name" value="{{$row->name}}" type="text" class="form-control"
-                                disabled="disabled"  placeholder="Name" required>
+            <div class="row">
+                <div class="col-md-8">
+                    <form action="{{route('meter.thaausaari.submit')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" value="{{$row->id}}">
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label">
+                                    Meter Change Date
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="meter_change_date" id="nepali-datepicker" class="form-control" data-inputmask-alias="datetime" placeholder="yyyy/mm/dd" data-mask="" im-insert="false">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-4 col-form-label">
+                                    Old Meter's Last Reading
+                                </label>
+                                <div class="col-sm-8">
+                                    <input name="customer_old_address"  type="number" class="form-control" >
+                                    @if ($errors->has('customer_address'))
+                                        <span class="text-danger">{{ $errors->first('customer_address') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-4 col-form-label">
+                                    Consumed Units
+                                    <font style="font-size: medium;" color="red"> * </font>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input name="customer_address" type="text" class="form-control @if($errors->has('customer_address')) is-invalid @endif">
+                                    @if ($errors->has('customer_address'))
+                                        <span class="text-danger">{{ $errors->first('customer_address') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-4 col-form-label">
+                                    New Meter Initial Reading 
+                                    <font style="font-size: medium;" color="red"> * </font>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input name="customer_address" type="text" value="0"
+                                        class="form-control @if($errors->has('customer_address')) is-invalid @endif" required>
+                                    @if ($errors->has('customer_address'))
+                                        <span class="text-danger">{{ $errors->first('customer_address') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword3" class="col-sm-4 col-form-label">
+                                    New Meter Seiral Number
+                                    <font style="font-size: medium;" color="red"> * </font>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input name="customer_address" type="text" placeholder="Enter New Meter Serial Number"
+                                        class="form-control @if($errors->has('customer_address')) is-invalid @endif" required>
+                                    @if ($errors->has('customer_address'))
+                                        <span class="text-danger">{{ $errors->first('customer_address') }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                         
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </form> 
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-primary m-3">
+                        <div class="card-header">
+                            <h3 class="card-title">Old Meter Info</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row form-group">
+                                <label for="name" class="col-sm-6 col-form-label">Last Read Unit :</label>
+                                <div  class="col-sm-6 col-form-label">{{$row->name}}</div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="name" class="col-sm-6 col-form-label">Year/Month :</label>
+                                <div  class="col-sm-6 col-form-label">{{$row->father_name}}</div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="name" class="col-sm-6 col-form-label">Read Date :</label>
+                                <div  class="col-sm-6 col-form-label">{{$row->mobile_number}}</div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="inputPassword3" class="col-sm-3 col-form-label">
-                                Customer Old Address
-                            </label>
-                            <div class="col-sm-9">
-                                <input name="customer_old_address" value="{{$row->customer_address}}" type="text" 
-                                    class="form-control" disabled="disabled">
-                                @if ($errors->has('customer_address'))
-                                    <span class="text-danger">{{ $errors->first('customer_address') }}</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="inputPassword3" class="col-sm-3 col-form-label">
-                                New Address
-                                <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <input name="customer_address" type="text" placeholder="Enter Customer New Address"
-                                    class="form-control @if($errors->has('customer_address')) is-invalid @endif" required>
-                                @if ($errors->has('customer_address'))
-                                    <span class="text-danger">{{ $errors->first('customer_address') }}</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="meter_reading_zone" class="col-sm-3 col-form-label">Meter Reading Zone 
-                            <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <select class="form-control " name="meter_reading_zone">
-                                    <option value="1" {{ ( $row->meter->meter_reading_zone == 1 ) ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ ( $row->meter->meter_reading_zone == 2 ) ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ ( $row->meter->meter_reading_zone == 3 ) ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ ( $row->meter->meter_reading_zone == 4 ) ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ ( $row->meter->meter_reading_zone == 5 ) ? 'selected' : '' }}>5</option>
-                                    <option value="6" {{ ( $row->meter->meter_reading_zone == 6 ) ? 'selected' : '' }}>6</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="ward" class="col-sm-3 col-form-label">Meter Reading Ward <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <select class="form-control " name="ward">
-                                    <option value="1" {{ ( $row->meter->ward == 1 ) ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ ( $row->meter->ward == 2 ) ? 'selected' : '' }}>2</option>
-                                    <option value="3" {{ ( $row->meter->ward == 3 ) ? 'selected' : '' }}>3</option>
-                                    <option value="4" {{ ( $row->meter->ward == 4 ) ? 'selected' : '' }}>4</option>
-                                    <option value="5" {{ ( $row->meter->ward == 5 ) ? 'selected' : '' }}>5</option>
-                                    <option value="6" {{ ( $row->meter->ward == 6 ) ? 'selected' : '' }}>6</option>
-                                </select>
-                            </div>
-                        </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="tap_type" class="col-sm-3 col-form-label">Tap Type
-                                <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <select class="form-control @if($errors->has('tap_type')) is-invalid @endif" name="tap_type">
-                                    <option value="permanent" {{ ( $row->meter->tap_type == 'permanent' ) ? 'selected' : '' }}>Permanent</option>
-                                    <option value="temporary" {{ ( $row->meter->tap_type == 'temporary' ) ? 'selected' : '' }}>Temporary</option>
-                                </select>
-                            @if ($errors->has('tap_type'))
-                                <span class="text-danger">{{ $errors->first('tap_type') }}</span>
-                            @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="tap_size" class="col-sm-3 col-form-label">Tap Size 
-                                <font style="font-size: medium;" color="red"> * </font>
-                            </label>
-                            <div class="col-sm-9">
-                                <select class="form-control @if($errors->has('tap_size')) is-invalid @endif" name="tap_size">
-                                    <option value="0.5" {{ ( $row->meter->tap_size == 0.5 ) ? 'selected' : '' }}>0.5</option>
-                                    <option value="1" {{ ( $row->meter->tap_size == 1 ) ? 'selected' : '' }}>1</option>
-                                </select>
-                                @if ($errors->has('tap_size'))
-                                    <span class="text-danger">{{ $errors->first('tap_size') }}</span>
-                                @endif
-                            </div>
-                        </div>
                 </div>
-                <div class="modal-footer justify-content-between">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </form> 
+            </div>
+           
           </div>
           <!-- /.modal-content -->
         </div>
@@ -279,10 +273,12 @@
 
     <script src="{{asset('js/jquery.dataTables.js')}}"></script>
     <script src="{{asset('js/dataTables.bootstrap.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/nepali.datepicker.min.js')}}"></script>
     
     @isset($customers)
         <script>
             $(document).ready(function() {
+                
                 var scrollSize = "";
                 var count = {{$customerCount}};
                 if(count > 1)scrollSize = "200px";
@@ -297,4 +293,18 @@
             });
         </script>
     @endisset
+
+
+    {{-- initializing nepali data picker fields --}}
+	<script>
+		$(document).ready(function(){
+			$('#nepali-datepicker').nepaliDatePicker({
+				ndpYear: true,
+				ndpMonth: true,
+				ndpYearCount: 50,
+			});
+            $('#nepali-datepicker').val(NepaliFunctions.ConvertDateFormat
+                    (NepaliFunctions.GetCurrentBsDate()));
+		});
+	</script>
 @endpush
