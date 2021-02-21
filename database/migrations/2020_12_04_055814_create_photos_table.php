@@ -22,10 +22,10 @@ class CreatePhotosTable extends Migration
             $table->string('citizenship_back',100)->nullable();
             $table->string('naksa',100)->nullable();
             $table->string('lalpurja',100)->nullable();
+            $table->unsignedBigInteger('customer_id');
         });
 
         Schema::table('photos', function (Blueprint $table) {
-            $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers');
         });
     }

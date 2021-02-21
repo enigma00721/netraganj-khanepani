@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Meter;
 
 class StoreCustomerPost extends FormRequest
 {
@@ -24,18 +25,15 @@ class StoreCustomerPost extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'required',
             'customer_name_nepali' => 'required',
-            'customer_number' => 'unique:customers',
-            'old_system_no' => 'required|unique:customers',
             'gender' => 'required|in:male,female,others',
             'customer_address' => 'required|string|min:3|max:50',
             'customer_address_nepali' => 'required|string|min:3|max:200',
             'customer_type' => 'required|in:dalit,private',
             'mobile_number' => 'required|numeric|digits_between:5,15',
 
-            'meter_serial' => 'required|numeric',
             'meter_initial_reading' => 'required|numeric',
             'meter_connected_date' => 'required|date',
             'meter_reading_zone' => 'required|numeric',
@@ -57,13 +55,30 @@ class StoreCustomerPost extends FormRequest
             'naksa' => 'mimes:jpeg,jpg,png,jpg|nullable|max:4096' ,
             'lalpurja' => 'mimes:jpeg,jpg,png,jpg|nullable|max:4096' ,
         ];
+
+        // put method to edit old customer
+        // post method to register new customer
+        if ($this->getMethod() == 'PUT') {
+
+            $meter = Meter::where('customer_id',$this->id)->first();
+
+            $rules += ['customer_number' => 'required|unique:customers,customer_number,'.$this->id];
+            $rules += ['old_system_no' => 'required|unique:customers,old_system_no,'.$this->id];
+            $rules += ['meter_serial' => 'required|unique:meters,meter_serial,'.$meter->id];
+        }
+        else{
+            $rules += ['customer_number' => 'required|unique:customers'];
+            $rules += ['old_system_no' => 'required|unique:customers'];
+            $rules += ['meter_serial' => 'required|unique:meters'];
+        }
+
+        return $rules;
     }
 
     public function messages()
     {
         return [
             'title.required' => 'A title is required',
-            'body.required' => 'A message is required',
         ];
     }
 }

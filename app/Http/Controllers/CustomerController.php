@@ -15,22 +15,17 @@ use DataTables;
 class CustomerController extends Controller
 {
     protected $image_path;
+    protected $meter_array_data = ['meter_serial','meter_initial_reading','meter_connected_date','meter_reading_zone','ward','tap_type','tap_size','number_of_consumers'];
+    protected $customer_nepali_field_array_data = ['customer_name_nepali','customer_address_nepali','customer_father_name_nepali','customer_grandfather_name_nepali'];
+    protected $land_info_data = ['naksha_number','sheet_number','kitta_number','area_of_land','house_number','purja_number'];
+
     // constructor 
     public function __construct()
     {
         $this->image_path = "/uploads/images/";
         $this->createDirectory();
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $customers = Customer::all(); 
-        dd($customers);
-    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -81,11 +76,7 @@ class CustomerController extends Controller
         $customer = Customer::create($request->all());
 
         // relationship model save
-        $request->request->add(['customer_id' => $customer->id]); //add request (foreign key)
-
-        Meter::create($request->only(['customer_id','meter_serial','meter_initial_reading','meter_connected_date','meter_reading_zone','ward','tap_type','tap_size','number_of_consumers']));
-        CustomerNepaliField::create($request->only(['customer_id','customer_name_nepali','customer_address_nepali','customer_father_name_nepali','customer_grandfather_name_nepali']));
-        LandInfo::create($request->only(['customer_id','naksha_number','sheet_number','kitta_number','area_of_land','house_number','purja_number']));
+        $isRelatedTableCreated = $this->updateOrCreateRelatedModel($customer,$request);
 
         $imageFiles = $this->checkImageRequest($request);
 
@@ -93,7 +84,7 @@ class CustomerController extends Controller
         if(!empty($imageFiles)){
             $uploadSuccess = (new ImageUploadService())->storeImage($imageFiles,$customer->id,0);
         }
-        if($customer){
+        if($customer && $isRelatedTableCreated){
             return redirect()->back()->with('success_message','Customer has been registered successfully!');
         }else{
             return redirect()->back()->with('error_message','Customer could not be registered!');
@@ -120,12 +111,22 @@ class CustomerController extends Controller
         ->addIndexColumn()
         ->editColumn('meter_status', function ($customer) {
             if ($customer->meter["meter_status"] == 1) 
-                return "<span class='badge badge-success'> " .'Online' . "</span>";
+                return "<span class='badge badge-primary'> " .'Online' . "</span>";
             else
-                return "<span class='badge badge-danger'>" . 'Offline' . "</span>";
+                return "<span class='badge badge-secondary'>" . 'Offline' . "</span>";
         })
         ->editColumn('action', function ($customer) {
-            return '<a href="'.route('customer.edit', $customer->id).'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+             
+            $html = '<a href="'.route('customer.edit', $customer->id).'" ><i class="fas fa-edit"></i> </a>';
+            $html .= ' <a onclick="document.getElementById(\'delete-customer-form-'.$customer->id.'\').submit();"
+                    href="#" >
+                    <i class="fas fa-trash text-danger"></i> 
+                     </a>';
+            $html .= ' <form id="delete-customer-form-'.$customer->id.'" action="'.route('customer.delete', $customer->id).'" method="POST" class="delete-customer-form">
+                        <input type="hidden" name="_token" value="'. csrf_token() .'">
+                    </form>';
+            return $html;
+                   
         })
         ->rawColumns(['meter_status','action'])
         ->toJson();
@@ -151,10 +152,10 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $row = Customer::where('id','=',$id)->with(['meter','customer_nepali_field','land_info'])->first();
-        if(!$row){
+        if(!$row)
             return redirect()->back()->with('error_message','Customer Not Found');
-        }
-        return view('pages.customer.edit',compact('row'));   
+        else
+            return view('pages.customer.edit',compact('row'));   
     }
 
     /**
@@ -164,9 +165,44 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreCustomerPost $request, $id)
     {
-        //
+        $customer = Customer::findOrFail($id);
+        $row = $customer->update($request->all());
+
+        // relationship table update
+        $isRelatedTableUpdated = $this->updateOrCreateRelatedModel($customer,$request);
+       
+        // image upload service class
+        $imageFiles = $this->checkImageRequest($request);
+        if(!empty($imageFiles)){
+            $uploadSuccess = (new ImageUploadService())->storeImage($imageFiles,$customer->id,1);
+        }
+
+        if($row && $isRelatedTableUpdated)
+            return redirect()->back()->with('success_message','Customer Updated Successfully!');
+        else
+            return redirect()->back()->with('error_message','Customer Could Not Be Updated Successfully!');
+    }
+
+    public function updateOrCreateRelatedModel($customer,$request)
+    {
+        if(!empty($customer->meter))
+            $customer->meter()->update($request->only($meter_array_data));
+        else
+            $customer->meter()->create($request->only($meter_array_data));
+
+        if(!empty($customer->customer_nepali_field))
+            $customer->customer_nepali_field()->update($request->only($customer_nepali_field_array_data));
+        else
+            $customer->customer_nepali_field()->create($request->only($customer_nepali_field_array_data));
+
+        if(!empty($customer->land_info))
+            $customer->land_info()->update($request->only($land_info_data));
+        else
+            $customer->land_info()->create($request->only($land_info_data));
+
+        return true;
     }
 
     /**
@@ -175,8 +211,35 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request , $id)
     {
-        //
+        $customer = Customer::findOrFail($id);
+        // dd($customer);
+
+        $customer->meter()->delete();
+        $customer->customer_nepali_field()->delete();
+        $customer->land_info()->delete();
+
+        // photo/image row/relation exists 
+        if(!empty($customer->photo))
+            $this->removeImage($customer->photo);
+        $customer->photo()->delete();
+
+        if($customer->delete())
+            return redirect()->back()->with('success_message','Customer Deleted Successfully!');
+        else
+            return redirect()->back()->with('error_message','Customer Could Not Be Deleted!');
+    }
+
+    public function removeImage($photo)
+    {
+        $imageFields = ['customer_photo','citizenship_front','citizenship_back','naksa','lalpurja'];
+
+        foreach($imageFields as $field)
+        {
+            if($photo->$field != null)
+                (new ImageUploadService())->deleteOldImage($photo->$field);
+        }
+         
     }
 }

@@ -237,7 +237,7 @@
 							<label for="inputPassword3" class="col-sm-2 col-form-label">Meter Serial <font style="font-size: medium;" color="red"> * </font>
 							</label>
 							<div class="col-sm-10">
-								<input name="meter_serial" type="number" value="{{ old('meter_serial')}}" class="form-control @if($errors->has('meter_serial')) is-invalid @endif" placeholder="Meter Serial">
+								<input name="meter_serial" type="text" value="{{ old('meter_serial')}}" class="form-control @if($errors->has('meter_serial')) is-invalid @endif" placeholder="Meter Serial">
 								@if ($errors->has('meter_serial'))
 									<span class="text-danger">{{ $errors->first('meter_serial') }}</span>
 								@endif

@@ -13,7 +13,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
-    <!-- @yield('third_party_stylesheets') -->
     @stack('style')
 </head>
 
@@ -84,7 +83,6 @@
 <!-- <script src="{{ mix('js/app.js') }}" defer></script> -->
 <!--               Note : without defer jquery is loaded -->
 
-<!-- @yield('third_party_scripts') -->
 
 @stack('script')
 

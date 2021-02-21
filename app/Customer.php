@@ -20,9 +20,7 @@ class Customer extends Model
     {
         return ucwords($value);
     }
-   
-    
-    // ------------- accessors ---------------
+    // ------------- accessors end ---------------
 
     //---------------relationship methods-----------
     public function meter()

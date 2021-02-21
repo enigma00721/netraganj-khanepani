@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Customer Register')
+@section('title', 'Customer Edit | Update')
 
 
 @push('style')
@@ -17,6 +17,13 @@
 		border: 1px solid #dee2e6;
 		margin: 3rem;
 	}
+	#new-photo-upload:after{
+		border-bottom:2px solid #007bff;
+		display: block;
+		margin:0 auto;
+		content: " ";
+		width:200px;
+	}
 </style>
 @endpush
 @section('content')
@@ -28,7 +35,7 @@
         <div class="row mb-2">
           <div class="col-sm-12">
             <h1>
-              Customer Registration
+              Customer Update
             </h1>
           </div>
 	  	</div><!-- /.container-fluid -->
@@ -55,8 +62,9 @@
 			  
 			<div class="card-body">
 
-			<form action="{{route('customer.register.submit')}}" method="post" enctype="multipart/form-data" >
+			<form action="{{route('customer.update',$row->id)}}" method="POST" enctype="multipart/form-data" >
 				@csrf
+				@method('PUT')
 				<div class="tab-content" id="custom-tabs-one-tabContent">
 
 					<div class="tab-pane fade show active" id="custom-tabs-one-customer-details" role="tabpanel" aria-labelledby="custom-tabs-one-customer-details-tab">
@@ -79,7 +87,7 @@
 									Customer Name (Nepali) <font style="font-size: medium;" color="red"> * </font>
 								</label>
 								<div class="col-sm-10">
-									<input name="customer_name_nepali" type="text" class="form-control @if($errors->has('customer_name_nepali')) is-invalid @endif"  placeholder="Customer Name in Nepali" value="{{$row->customer_nepali_field->customer_name_nepali}}">
+									<input name="customer_name_nepali" type="text" class="form-control @if($errors->has('customer_name_nepali')) is-invalid @endif"  placeholder="Customer Name in Nepali" value="{{optional($row->customer_nepali_field)->customer_name_nepali}}">
 									@if ($errors->has('customer_name_nepali'))
 										<span class="text-danger">{{ $errors->first('customer_name_nepali') }}</span>
 									@endif
@@ -114,7 +122,7 @@
 							<div class="form-group row">
 								<label for="inputPassword3" class="col-sm-2 col-form-label">Father's Name (Nepali)</label>
 								<div class="col-sm-10">
-								<input name="customer_father_name_nepali" type="text" class="form-control" value="{{ $row->customer_nepali_field->customer_father_name_nepali }}" placeholder="Father's Name in Nepali" >
+								<input name="customer_father_name_nepali" type="text" class="form-control" value="{{ optional($row->customer_nepali_field)->customer_father_name_nepali }}" placeholder="Father's Name in Nepali" >
 								</div>
 							</div>
 							<div class="form-group row">
@@ -126,7 +134,7 @@
 							<div class="form-group row">
 								<label for="inputPassword3" class="col-sm-2 col-form-label">Grand Father Name (Nepali)</label>
 								<div class="col-sm-10">
-								<input name="customer_grandfather_name_nepali" type="text" class="form-control" value="{{ $row->customer_nepali_field->customer_grandfather_name_nepali}}" placeholder="Grand Father Name in Nepali">
+								<input name="customer_grandfather_name_nepali" type="text" class="form-control" value="{{ optional($row->customer_nepali_field)->customer_grandfather_name_nepali}}" placeholder="Grand Father Name in Nepali">
 								</div>
 							</div>
 							
@@ -188,7 +196,7 @@
 									Customer Address (Nepali) <font style="font-size: medium;" color="red"> * </font>
 								</label>
 								<div class="col-sm-10">
-									<input name="customer_address_nepali" type="text" value="{{ $row->customer_address_nepali}}" class="form-control @if($errors->has('customer_address_nepali')) is-invalid @endif" placeholder="Customer Address in Nepali">
+									<input name="customer_address_nepali" type="text" value="{{ optional($row->customer_nepali_field)->customer_address_nepali}}" class="form-control @if($errors->has('customer_address_nepali')) is-invalid @endif" placeholder="Customer Address in Nepali">
 									@if ($errors->has('customer_address_nepali'))
 										<span class="text-danger">{{ $errors->first('customer_address_nepali') }}</span>
 									@endif
@@ -237,7 +245,7 @@
 							<label for="inputPassword3" class="col-sm-2 col-form-label">Meter Serial <font style="font-size: medium;" color="red"> * </font>
 							</label>
 							<div class="col-sm-10">
-								<input name="meter_serial" type="number" value="{{ $row->meter_serial}}" class="form-control @if($errors->has('meter_serial')) is-invalid @endif" placeholder="Meter Serial">
+								<input name="meter_serial" type="text" value="{{ $row->meter->meter_serial}}" class="form-control @if($errors->has('meter_serial')) is-invalid @endif" placeholder="Meter Serial">
 								@if ($errors->has('meter_serial'))
 									<span class="text-danger">{{ $errors->first('meter_serial') }}</span>
 								@endif
@@ -248,7 +256,7 @@
 							<label for="inputPassword3" class="col-sm-2 col-form-label">Meter Initial Reading <font style="font-size: medium;" color="red"> * </font>
 							</label>
 							<div class="col-sm-10">
-								<input name="meter_initial_reading" type="number" value="{{ $row->meter_initial_reading}}" class="form-control @if($errors->has('meter_initial_reading')) is-invalid @endif" placeholder="Meter Initial Reading" >
+								<input name="meter_initial_reading" type="number" value="{{ $row->meter->meter_initial_reading}}" class="form-control @if($errors->has('meter_initial_reading')) is-invalid @endif" placeholder="Meter Initial Reading" >
 								@if ($errors->has('meter_initial_reading'))
 									<span class="text-danger">{{ $errors->first('meter_initial_reading') }}</span>
 								@endif
@@ -261,7 +269,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
 									</div>
-								<input type="text" name="meter_connected_date" id="nepali-datepicker-2" value="{{ $row->meter_connected_date}}" class="form-control @if($errors->has('meter_connected_date')) is-invalid @endif" data-inputmask-alias="datetime" placeholder="yyyy/mm/dd" data-mask="" im-insert="false">
+								<input type="text" name="meter_connected_date" id="nepali-datepicker-2" value="{{ $row->meter->meter_connected_date}}" class="form-control @if($errors->has('meter_connected_date')) is-invalid @endif" data-inputmask-alias="datetime" placeholder="yyyy/mm/dd" data-mask="" im-insert="false">
 								</div>
 								@if ($errors->has('meter_connected_date'))
 									<span class="text-danger">{{ $errors->first('meter_connected_date') }}</span>
@@ -273,12 +281,12 @@
 							</label>
 							<div class="col-sm-10">
 								<select class="form-control @if($errors->has('meter_reading_zone')) is-invalid @endif" name="meter_reading_zone">
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-									<option value="5">5</option>
-									<option value="6">6</option>
+									<option value="1" {{ ($row->meter->meter_reading_zone == 1) ? 'selected' : '' }}>1</option>
+									<option value="2" {{ ($row->meter->meter_reading_zone == 2) ? 'selected' : '' }}>2</option>
+									<option value="3" {{ ($row->meter->meter_reading_zone == 3) ? 'selected' : '' }}>3</option>
+									<option value="4" {{ ($row->meter->meter_reading_zone == 4) ? 'selected' : '' }}>4</option>
+									<option value="5" {{ ($row->meter->meter_reading_zone == 5) ? 'selected' : '' }}>5</option>
+									<option value="6" {{ ($row->meter->meter_reading_zone == 6) ? 'selected' : '' }}>6</option>
 								</select>
 								@if ($errors->has('meter_reading_zone'))
 									<span class="text-danger">{{ $errors->first('meter_reading_zone') }}</span>
@@ -290,12 +298,12 @@
 							</label>
 							<div class="col-sm-10">
 								<select class="form-control @if($errors->has('ward')) is-invalid @endif" name="ward">
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-									<option value="5">5</option>
-									<option value="6">6</option>
+									<option value="1" {{ ($row->meter->ward == 1) ? 'selected' : '' }}>1</option>
+									<option value="2" {{ ($row->meter->ward == 2) ? 'selected' : '' }}>2</option>
+									<option value="3" {{ ($row->meter->ward == 3) ? 'selected' : '' }}>3</option>
+									<option value="4" {{ ($row->meter->ward == 4) ? 'selected' : '' }}>4</option>
+									<option value="5" {{ ($row->meter->ward == 5) ? 'selected' : '' }}>5</option>
+									<option value="6" {{ ($row->meter->ward == 6) ? 'selected' : '' }}>6</option>
 								</select>
 							@if ($errors->has('ward'))
 								<span class="text-danger">{{ $errors->first('ward') }}</span>
@@ -308,8 +316,8 @@
 							</label>
 							<div class="col-sm-10">
 								<select class="form-control @if($errors->has('tap_type')) is-invalid @endif" name="tap_type">
-									<option value="permanent">Permanent</option>
-									<option value="temporary">Temporary</option>
+									<option value="permanent" {{ ($row->meter->tap_type == 'permanent') ? 'selected' : '' }}>Permanent</option>
+									<option value="temporary" {{ ($row->meter->tap_type == 'temporary') ? 'selected' : '' }}>Temporary</option>
 								</select>
 							@if ($errors->has('tap_type'))
 								<span class="text-danger">{{ $errors->first('tap_type') }}</span>
@@ -322,8 +330,8 @@
 							</label>
 							<div class="col-sm-10">
 								<select class="form-control @if($errors->has('tap_size')) is-invalid @endif" name="tap_size">
-									<option value="0.5">0.5</option>
-									<option value="1">1</option>
+									<option value="0.5" {{ ($row->meter->tap_size == '0.5') ? 'selected' : '' }}>0.5</option>
+									<option value="1" {{ ($row->meter->tap_size == '1') ? 'selected' : '' }}>1</option>
 								</select>
 								@if ($errors->has('tap_size'))
 									<span class="text-danger">{{ $errors->first('tap_size') }}</span>
@@ -333,7 +341,7 @@
 						<div class="form-group row">
 							<label for="number_of_consumers" class="col-sm-2 col-form-label">Number Of Consumers <font style="font-size: medium;" color="red"> * </font></label>
 							<div class="col-sm-10">
-								<input name="number_of_consumers" type="number" value="{{ $row->number_of_consumers}}" class="form-control @if($errors->has('number_of_consumers')) is-invalid @endif" placeholder="Number Of Consumers" >
+								<input name="number_of_consumers" type="number" value="{{ $row->meter->number_of_consumers}}" class="form-control @if($errors->has('number_of_consumers')) is-invalid @endif" placeholder="Number Of Consumers" >
 								@if ($errors->has('number_of_consumers'))
 									<span class="text-danger">{{ $errors->first('number_of_consumers') }}</span>
 								@endif
@@ -356,7 +364,7 @@
 							<div class="form-group row">
 								<label for="naksha_number" class="col-sm-2 col-form-label">Naksha Number</label>
 								<div class="col-sm-10">
-									<input name="naksha_number" type="text" value="{{ $row->naksha_number}}" class="form-control @if($errors->has('naksha_number')) is-invalid @endif" placeholder="Naksha Number">
+									<input name="naksha_number" type="text" value="{{ optional($row->land_info)->naksha_number}}" class="form-control @if($errors->has('naksha_number')) is-invalid @endif" placeholder="Naksha Number">
 									@if($errors->has('naksha_number'))
 										<span class="text-danger">{{ $errors->first('naksha_number') }}</span>
 									@endif
@@ -366,7 +374,7 @@
 							<div class="form-group row">
 								<label for="sheet_number" class="col-sm-2 col-form-label">Sheet Number</label>
 								<div class="col-sm-10">
-									<input name="sheet_number" type="text" value="{{ $row->sheet_number}}" class="form-control @if($errors->has('sheet_number')) is-invalid @endif" placeholder="Sheet Number">
+									<input name="sheet_number" type="text" value="{{ optional($row->land_info)->sheet_number}}" class="form-control @if($errors->has('sheet_number')) is-invalid @endif" placeholder="Sheet Number">
 									@if($errors->has('sheet_number'))
 										<span class="text-danger">{{ $errors->first('sheet_number') }}</span>
 									@endif
@@ -375,7 +383,7 @@
 							<div class="form-group row">
 								<label for="kitta_number" class="col-sm-2 col-form-label">Kitta Number</label>
 								<div class="col-sm-10">
-									<input name="kitta_number" type="text" value="{{ $row->kitta_number}}" class="form-control @if($errors->has('kitta_number')) is-invalid @endif" placeholder="Kitta Number">
+									<input name="kitta_number" type="text" value="{{ optional($row->land_info)->kitta_number}}" class="form-control @if($errors->has('kitta_number')) is-invalid @endif" placeholder="Kitta Number">
 									@if($errors->has('kitta_number'))
 										<span class="text-danger">{{ $errors->first('kitta_number') }}</span>
 									@endif
@@ -385,7 +393,7 @@
 							<div class="form-group row">
 								<label for="house_number" class="col-sm-2 col-form-label">House Number</label>
 								<div class="col-sm-10">
-									<input name="house_number" type="text" value="{{ $row->house_number}}" class="form-control @if($errors->has('house_number')) is-invalid @endif" placeholder="House Number">
+									<input name="house_number" type="text" value="{{ optional($row->land_info)->house_number}}" class="form-control @if($errors->has('house_number')) is-invalid @endif" placeholder="House Number">
 									@if($errors->has('house_number'))
 										<span class="text-danger">{{ $errors->first('house_number') }}</span>
 									@endif
@@ -394,7 +402,7 @@
 							<div class="form-group row">
 								<label for="purja_number" class="col-sm-2 col-form-label">Purja Number</label>
 								<div class="col-sm-10">
-									<input name="purja_number" type="text" value="{{ $row->purja_number}}" class="form-control @if($errors->has('purja_number')) is-invalid @endif" placeholder="Purja Number">
+									<input name="purja_number" type="text" value="{{ optional($row->land_info)->purja_number}}" class="form-control @if($errors->has('purja_number')) is-invalid @endif" placeholder="Purja Number">
 									@if($errors->has('purja_number'))
 										<span class="text-danger">{{ $errors->first('purja_number') }}</span>
 									@endif
@@ -403,14 +411,16 @@
 							<div class="form-group row">
 								<label for="area_of_land" class="col-sm-2 col-form-label">Area Of Land</label>
 								<div class="col-sm-10">
-									<input name="area_of_land" type="text" value="{{ $row->area_of_land}}" class="form-control @if($errors->has('area_of_land')) is-invalid @endif" placeholder="Area Of Land">
+									<input name="area_of_land" type="text" value="{{ optional($row->land_info)->area_of_land}}" class="form-control @if($errors->has('area_of_land')) is-invalid @endif" placeholder="Area Of Land">
 									@if($errors->has('area_of_land'))
 										<span class="text-danger">{{ $errors->first('area_of_land') }}</span>
 									@endif
 								</div>
 							</div>
 
-							<hr>
+							<br>
+								<h5 id="new-photo-upload" class="text-center">Choose New Photo</h5>
+							<br>
 
 							<!-- image upload fields -->
 
@@ -480,7 +490,7 @@
 						</div><!-- card body end -->
 
 						<div class="card-footer">
-							<button type="submit" id="submit_btn" class="btn btn-info">Submit</button>
+							<button type="submit" id="submit_btn" class="btn btn-primary">Submit</button>
 							<button type="submit" class="btn btn-danger float-right">Cancel</button>
 						</div>
 

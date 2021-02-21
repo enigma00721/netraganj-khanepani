@@ -5,6 +5,8 @@
 @push('style')
     <link href="{{ asset('css/dataTables.bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dataTables.buttons.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('css/sweetalert2.min.css')}}">
+
     <style>
         /* show 10 entries style */
         #example1_length{
@@ -97,6 +99,8 @@
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
 
+    <script src="{{asset('js/sweetalert2.min.js')}}"></script>
+
 	@include('partial.flash_message_script')
 
     <script>
@@ -166,5 +170,34 @@
        
 
        
+    </script>
+
+    <script>
+            $( ".delete-customer-form" ).submit(function( event ) {
+                alert( "Handler for .submit() called." );
+                var current_object = $(this);
+                swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this imaginary file!",
+                    type: "error",
+                    showCancelButton: true,
+                    dangerMode: true,
+                    cancelButtonClass: '#DD6B55',
+                    confirmButtonColor: '#dc3545',
+                    confirmButtonText: 'Delete!',
+                },function (result) {
+                    if (result) {
+                        var action = current_object.attr('data-action');
+                        var token = jQuery('meta[name="csrf-token"]').attr('content');
+                        var id = current_object.attr('data-id');
+
+                        $('body').html("<form class='form-inline remove-form' method='post' action='"+action+"'></form>");
+                        $('body').find('.remove-form').append('<input name="_method" type="hidden" value="delete">');
+                        $('body').find('.remove-form').append('<input name="_token" type="hidden" value="'+token+'">');
+                        $('body').find('.remove-form').append('<input name="id" type="hidden" value="'+id+'">');
+                        $('body').find('.remove-form').submit();
+                    }
+                });
+        });
     </script>
 @endpush

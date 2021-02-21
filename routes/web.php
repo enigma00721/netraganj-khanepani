@@ -22,12 +22,16 @@ Route::group(['middleware' => 'auth'], function (){
     
     Route::get('/home', 'HomeController@index')->name('home');
     
-    Route::get('/customer', 'CustomerController@index');
+    // Route::get('/customer', 'CustomerController@index');
+    Route::get('/customer/list', 'CustomerController@list')->name('customer.list');
+    Route::get('/customer/list/ajax', 'CustomerController@getCustomers')->name('customer.list.ajax');
+
     Route::get('/customer/register', 'CustomerController@create')->name('customer.register');
     Route::post('/customer/register', 'CustomerController@store')->name('customer.register.submit');
-    Route::get('/customer/list', 'CustomerController@list')->name('customer.list');
+
     Route::get('/customer/edit/{id}', 'CustomerController@edit')->name('customer.edit');
-    Route::get('/customer/list/ajax', 'CustomerController@getCustomers')->name('customer.list.ajax');
+    Route::put('/customer/update/{id}', 'CustomerController@update')->name('customer.update');
+    Route::post('/customer/delete/{id}', 'CustomerController@destroy')->name('customer.delete');
 
     Route::get('/meter/naamsaari', 'MeterController@meterNaamsaari')->name('meter.naamsaari');
     Route::get('/meter/naamsaari/edit/{id}', 'MeterController@meterNaamsaariEdit')->name('meter.naamsaari.edit');
